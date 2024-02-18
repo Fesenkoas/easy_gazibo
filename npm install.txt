@@ -1,0 +1,119 @@
+Компонент React для преобразования файлов в base64
+
+npm i react-file-base64
+
+
+MUI Core содержит базовые библиотеки компонентов пользовательского интерфейса React для более быстрой доставки новых функций.
+
+npm install @mui/material @emotion/react @emotion/styled
+
+google and token
+npm i @react-oauth/google jwt-decode
+
+для переменных .env
+npm i dotenv
+
+email
+npm install nodemailer
+
+npx create-react-app .
+npm install react-router@6
+npm install @reduxjs/toolkit
+npm install react-redux
+npx create-react-app . --template redux-typescript
+
+npx create-react-app . --template redux
+
+
+create backend
+npm init -y
+
+npm i express mongoose cors bcryptjs dotenv jsonwebtoken
+
+npm i nodemon -D что то вроде лаив сервера дев зависимый атрибут 
+
+cors - отправление запросов с разных  ip адресов
+bcryptjs - для шифрования поролей
+dotenv - для переменных .env
+jsonwebtoken - для получения токена при регистрации
+npm install concurrently - для параллельного выполнения скриптов
+npm install -g pm2  инструмент демонизации процесса, чтобы ваше приложение автоматически перезапускалось в случае сбоя и работало в фоновом режиме.
+
+
+
+Thank you!
+Below you will find your license key. Copy the license key and paste it in the Chakra UI Figma Plugin.
+
+SRE-JRE-KGP
+Need to manage your subscritpion? Login to customer portal
+
+
+В случае если не появляется выбор шаблона при создании проекта, пишем в терминале expo init project-name --template blank или более короткая запись expo init project-name -t blank
+
+
+npx create-expo-app .
+
+npm install nativewind
+npm install --save-dev tailwindcss
+
+npx tailwindcss init
+ content: ["./App.{js,jsx,ts,tsx}", "./<custom directory>/**/*.{js,jsx,ts,tsx}"],
+ 
+ // babel.config.js
+ plugins: ["nativewind/babel"],
+
+npm install --save-dev tailwindcss@3.3.2
+
+npm install react-native-screens react-native-safe-area-context
+npm install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context react-native-gesture-handler
+
+
+PM2
+
+# Fork mode
+pm2 start app.js --name my-api # Name process
+
+# Cluster mode
+pm2 start app.js -i 0        # Will start maximum processes with LB depending on available CPUs
+pm2 start app.js -i max      # Same as above, but deprecated.
+pm2 scale app +3             # Scales `app` up by 3 workers
+pm2 scale app 2              # Scales `app` up or down to 2 workers total
+
+# Listing
+
+pm2 list               # Display all processes status
+pm2 jlist              # Print process list in raw JSON
+pm2 prettylist         # Print process list in beautified JSON
+
+pm2 describe 0         # Display all information about a specific process
+
+pm2 monit              # Monitor all processes
+
+# Logs
+
+pm2 logs [--raw]       # Display all processes logs in streaming
+pm2 flush              # Empty all log files
+pm2 reloadLogs         # Reload all logs
+
+# Actions
+
+pm2 stop all           # Stop all processes
+pm2 restart all        # Restart all processes
+
+pm2 reload all         # Will 0s downtime reload (for NETWORKED apps)
+
+pm2 stop 0             # Stop specific process id
+pm2 restart 0          # Restart specific process id
+
+pm2 delete 0           # Will remove process from pm2 list
+pm2 delete all         # Will remove all processes from pm2 list
+
+# Misc
+
+pm2 reset <process>    # Reset meta data (restarted time...)
+pm2 updatePM2          # Update in memory pm2
+pm2 ping               # Ensure pm2 daemon has been launched
+pm2 sendSignal SIGUSR2 my-app # Send system signal to script
+pm2 start app.js --no-daemon
+pm2 start app.js --no-vizion
+pm2 start app.js --no-autorestart
