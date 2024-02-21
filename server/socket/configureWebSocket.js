@@ -27,18 +27,6 @@ function configureWebSocket(wss, folderToWatch) {
     });
   });
 
-  // // Обработчик для события добавления новой папки
-  // watcher.on("addDir", (path) => {
-  //   console.log(`Новая папка добавлена: ${path}`);
-
-  //   // Отправка уведомления на фронтенд через WebSocket
-  //   wss.clients.forEach((client) => {
-  //     if (client.readyState === WebSocket.OPEN) {
-  //       client.send(JSON.stringify({ type: "newFolder", folderName: path }));
-  //     }
-  //   });
-  // });
-
   // Обработчик подключения WebSocket
   wss.on("connection", (ws) => {
     console.log("Новое соединение WebSocket");
