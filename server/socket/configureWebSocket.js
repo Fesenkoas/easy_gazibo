@@ -14,13 +14,11 @@ function configureWebSocket(wss, folderToWatch) {
   // Обработчик для события добавления нового файла
   watcher.on("add", (path) => {
     console.log(`Новый файл добавлен: ${path}`);
-    // const folderPath = require("path").dirname(path);
-    // console.log(`Файл был добавлен в папку: ${folderPath}`);
 
     // Получаем имя файла из полного пути
     const fileName = require("path").basename(path);
     console.log(`Имя фаила: ${fileName}`);
-    
+
     // Отправка уведомления на фронтенд через WebSocket
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
