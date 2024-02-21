@@ -23,8 +23,8 @@ socket.addEventListener('error', function (event) {
   console.error('Ошибка WebSocket:', event);
 });
 
-// Пример отправки сообщения о распечатанном файле
-// Этот код можно вызывать в нужном месте вашего клиентского приложения
-function notifyFilePrinted(printedFilePath) {
-  socket.send(JSON.stringify({ type: 'filePrinted', printedFilePath }));
-}
+// // Пример отправки сообщения о распечатанном файле
+// // Этот код можно вызывать в нужном месте вашего клиентского приложения
+// function notifyFilePrinted(printedFilePath) {
+//   socket.send(JSON.stringify({ type: 'filePrinted', printedFilePath }));
+// }
