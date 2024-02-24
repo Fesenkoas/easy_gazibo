@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import { ListView } from "./components/ListView";
 
 function App() {
   const [msg, setMsg] = useState([]);
@@ -37,10 +38,11 @@ function App() {
     };
   }, [msg]);
   return (
-    <div className="App">
+    <div>
       {msg.map((item, key) => (
         <div key={key}>{item.path}</div>
       ))}
+      <ListView/>
     </div>
   );
 }
