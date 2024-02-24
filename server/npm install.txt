@@ -117,3 +117,29 @@ pm2 sendSignal SIGUSR2 my-app # Send system signal to script
 pm2 start app.js --no-daemon
 pm2 start app.js --no-vizion
 pm2 start app.js --no-autorestart
+
+
+
+Эффективные вызовы fetch
+Как и в любой асинхронной операции, основанной на промисах, последовательные вызовы fetch() следует выполнять только в тех случаях, когда ввод вызова зависит от вывода предыдущего. Код ниже работает не так хорошо, как мог бы, потому что каждый вызов API должен ждать разрешения или отклонения предыдущего. Если каждый ответ занимает одну секунду, то в общей сложности на это уйдёт три секунды:
+
+// inefficent
+const response1 = await fetch('https://example1.com/api/');
+const response2 = await fetch('https://example2.com/api/');
+const response3 = await fetch('https://example3.com/api/');
+Метод Promise.allSettled() запускает промисы параллельно и выполняет их, когда все они разрешены или отклонены. Этот код завершается со скоростью самого медленного ответа. Он будет выполняться в три раза быстрее:
+
+const data = await Promise.allSettled(
+  [
+    'https://example1.com/api/',
+    'https://example2.com/api/',
+    'https://example3.com/api/'
+  ].map(url => fetch( url ))
+);
+data возвращает массив объектов, где:
+
+каждый объект имеет свойство status со строковым значением "fullfilled" или "rejected"
+
+если разрешён — свойство value возвращает ответ fetch()
+
+если отклонён — свойство reason возвращает ошибку
