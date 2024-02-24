@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const http = require("http");
+const cors = require("cors")
 const WebSocket = require("ws");
 const dotenv = require("dotenv");
 const configureWebSocket = require("./socket/configureWebSocket");
@@ -22,7 +23,7 @@ const PASSWORD = process.env.DB_PASSWORD;
 const USER = process.env.DB_USER;
 
 //Middleware
-// app.use(cors());
+ app.use(cors());
 // app.use(express.json({limit: '50mb'}));
 
 //Routes
