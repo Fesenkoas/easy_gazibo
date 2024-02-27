@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-//[import { ListView } from "./components/ListView";
+import { ListView } from "./components/ListView";
 
 function App() {
   const [msg, setMsg] = useState([]);
@@ -17,11 +17,9 @@ function App() {
     socket.addEventListener("message", function (event) {
       // Распаковываем данные из JSON
       const data = JSON.parse(event.data);
-      data.path.map((item, key)=>
-        (setMsg(prevMsg => [...prevMsg, item]))
-      )
+      data.path.map((item, key) => setMsg((prevMsg) => [...prevMsg, item]));
       // Делаем что-то с полученными данными
-      console.log("Получено сообщение:", data.path);
+      console.log("Получено сообщение:", data);
     });
 
     // Обработчик события закрытия соединения
@@ -42,9 +40,17 @@ function App() {
   return (
     <div>
       {msg.map((item, key) => (
-        <div key={key}>{item}</div>
+        <div key={key}>
+          <div >{item.folderDate}</div>
+          <div >{item.folderFabric}</div>
+          <div >{item.name}</div>
+          <div >{item.height}</div>
+          <div >{item.width}</div>
+          <div >{item.col}</div>
+          <div >{item.url}</div>
+        </div>
       ))}
-      {/* <ListView/> */}
+      <ListView/>
     </div>
   );
 }

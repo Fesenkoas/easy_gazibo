@@ -1,88 +1,62 @@
 const chokidar = require("chokidar");
 const WebSocket = require("ws");
 const path = require("path");
-const moment = require("moment");
+const { parseUrl } = require("../util/parseURL.js");
 
 function configureWebSocket(wss, folderToWatch) {
-  // Настройка отслеживания изменений с помощью chokidar
+  // Setting up file watching using chokidar
   const watcher = chokidar.watch(folderToWatch, {
-    ignored: /^\./, // игнорировать скрытые файлы
+    ignored: /^\./, // ignore hidden files
     persistent: true,
-    usePolling: true, // использовать polling
-    interval: 1000, // интервал опроса в миллисекундах
+    usePolling: true, // use polling
+    interval: 1000, // polling interval in milliseconds
   });
 
-  // Массив для хранения новых файлов
+  // Array to store new files
   let newFiles = [];
 
-  // Таймер для определения времени между отправками файлов
+  // Timer to determine time between sending files
   let sendTimer;
 
-  // Обработчик для события добавления нового файла
+  // Handler for 'add' event (new file added)
   watcher.on("add", (filePath) => {
     const fileName = path.basename(filePath);
     const folderPath = require("path").dirname(filePath);
-    //console.log(`Новый файл добавлен: ${filePath}`);
-    //-----------------------------------------------------------
 
-    // Разделение строки по обратному слешу
-    let folders = folderPath.split("\\");
+    newFiles.push(parseUrl(filePath,folderPath, fileName)); // Add new file to the array
 
-    // Поиск индекса "rip"
-    let ripIndex = folders.indexOf("RIP" || "rip");
-
-    // Если "rip" найден, извлекаем все папки после него
-    let extractedFolders = [];
-    if (ripIndex !== -1 && ripIndex < folders.length - 1) {
-      extractedFolders = folders.slice(ripIndex + 1);
-    }
-
-    // Попытка парсинга строки как даты
-    const parsedDate = moment(extractedFolders[0], "DD.MM", true); // Второй аргумент указывает на формат даты
-
-    //Создаем объект
-    const myObject = {
-      url: filePath,
-      folderDate: extractedFolders[0],
-      folderFabric: extractedFolders[1] || "Уточните ткань",
-      name: fileName,
-    };
-    console.log(myObject);
-    //-----------------------------------------------------------
-    newFiles.push(filePath); // Добавляем новый файл в массив
-
-    // Если уже есть активный таймер, ничего не делаем
+    // If there is already an active timer, do nothing
     if (sendTimer) return;
 
-    // Запускаем таймер для отправки файлов через 1 секунду
+    // Start timer to send files after 1 second
     sendTimer = setTimeout(() => {
-      // Если в массиве есть файлы, отправляем их клиенту
+      // If there are files in the array, send them to the client
       if (newFiles.length > 0) {
-        // Отправляем массив файлов на фронтенд через WebSocket
+        // Send the array of files to the frontend via WebSocket
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
           }
         });
-        // Очищаем массив новых файлов
+        // Clear the array of new files
         newFiles = [];
       }
-      // Сбрасываем таймер
+      // Reset the timer
       sendTimer = null;
-    }, 1000); // Отправляем файлы через 1 секунду
+    }, 1000); // Send files after 1 second
   });
 
   watcher.on("error", (error) => {
-    console.error(`Произошла ошибка: ${error}`);
+    console.error(`Error occurred: ${error}`);
   });
 
-  // Обработчик подключения WebSocket
+  // WebSocket connection handler
   wss.on("connection", (ws) => {
-    console.log("Новое соединение WebSocket");
+    console.log("New WebSocket connection");
 
-    // Обработчик закрытия WebSocket
+    // WebSocket close handler
     ws.on("close", () => {
-      console.log("WebSocket соединение закрыто");
+      console.log("WebSocket connection closed");
     });
   });
 }
