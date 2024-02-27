@@ -143,3 +143,18 @@ data возвращает массив объектов, где:
 если разрешён — свойство value возвращает ответ fetch()
 
 если отклонён — свойство reason возвращает ошибку
+
+
+fullObject: [
+       folderDate:[
+            folderFabric: [
+            {
+              fullUrl: { type: String, required: true },
+              fileName: { type: String, required: true },
+              height:{ type: Number, required: true },
+              width:{ type: Number, required: true },
+              col:{ type: Number, required: true },
+            },
+          ],
+        ]
+    ],

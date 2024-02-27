@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const FolderDateShema = new mongoose.Schema(
   {
+    nameDate: { type: String, required: true },
     folderDate:[
       {
         type: mongoose.Schema.Types.ObjectId,

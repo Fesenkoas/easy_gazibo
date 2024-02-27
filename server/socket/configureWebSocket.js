@@ -1,15 +1,16 @@
-const chokidar = require("chokidar");
-const WebSocket = require("ws");
-const path = require("path");
-const { parseUrl } = require("../util/parseURL.js");
+import chokidar from "chokidar";
+import WebSocket from "ws";
+import path from "path";
+import { parseUrl } from "../util/parseURL.js";
+import { addItem } from "../controllers/item.js";
 
-function configureWebSocket(wss, folderToWatch) {
+export const configureWebSocket = (wss, folderToWatch) => {
   // Setting up file watching using chokidar
   const watcher = chokidar.watch(folderToWatch, {
     ignored: /^\./, // ignore hidden files
     persistent: true,
     usePolling: true, // use polling
-    interval: 1000, // polling interval in milliseconds
+    interval: 500, // polling interval in milliseconds
   });
 
   // Array to store new files
@@ -21,17 +22,24 @@ function configureWebSocket(wss, folderToWatch) {
   // Handler for 'add' event (new file added)
   watcher.on("add", (filePath) => {
     const fileName = path.basename(filePath);
-    const folderPath = require("path").dirname(filePath);
-
-    newFiles.push(parseUrl(filePath,folderPath, fileName)); // Add new file to the array
+    const folderPath = path.dirname(filePath);
+    newFiles.push(parseUrl(filePath, folderPath, fileName)); // Add new file to the array
 
     // If there is already an active timer, do nothing
     if (sendTimer) return;
 
+    
     // Start timer to send files after 1 second
     sendTimer = setTimeout(() => {
       // If there are files in the array, send them to the client
       if (newFiles.length > 0) {
+        try {
+
+          // console.log(newFiles);
+           addItem(newFiles);
+        } catch (error) {
+          console.error("Error adding item to database:", error);
+        }
         // Send the array of files to the frontend via WebSocket
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
@@ -41,6 +49,7 @@ function configureWebSocket(wss, folderToWatch) {
         // Clear the array of new files
         newFiles = [];
       }
+
       // Reset the timer
       sendTimer = null;
     }, 1000); // Send files after 1 second
@@ -59,6 +68,4 @@ function configureWebSocket(wss, folderToWatch) {
       console.log("WebSocket connection closed");
     });
   });
-}
-
-module.exports = configureWebSocket;
+};

@@ -1,7 +1,7 @@
-const express = require('express');
-const path = require('path');
+import express from "express";
+import path from "path";
 
-function configureExpressServer(app, server) {
+export const configureExpressServer = (app, server) => {
   // Middleware для обработки статических файлов
   app.use(express.static(path.join(__dirname, '../public/Shaot-FrontEnd/build')));
 
@@ -16,5 +16,3 @@ function configureExpressServer(app, server) {
     res.sendFile(path.join(__dirname, '../public/Shaot-FrontEnd/build', 'index.html'));
   });
 }
-
-module.exports = configureExpressServer;

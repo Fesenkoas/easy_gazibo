@@ -1,53 +1,51 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const http = require("http");
-const cors = require("cors")
-const WebSocket = require("ws");
-const dotenv = require("dotenv");
-const configureWebSocket = require("./socket/configureWebSocket");
-const configureExpressServer = require("./path/configureExpressServer");
+import express from "express";
+import mongoose from "mongoose";
+import http from "http";
+import cors from "cors";
+import { WebSocketServer } from "ws";
+import dotenv from "dotenv";
+import { configureWebSocket } from "./socket/configureWebSocket.js";
+import { configureExpressServer } from "./path/configureExpressServer.js";
 
 const app = express();
 dotenv.config();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
-// Путь к папке, которую вы хотите отслеживать
+// Path to the folder you want to watch
 const folderToWatch = "C:/Users/Fesenko/Desktop/RIP";
 
-//Constant
+// Constants
 const PORT = process.env.PORT || 3000;
 const DB_NAME = process.env.DB_NAME;
 const DB_URL = process.env.DB_URL;
 const PASSWORD = process.env.DB_PASSWORD;
 const USER = process.env.DB_USER;
 
-//Middleware
- app.use(cors());
-// app.use(express.json({limit: '50mb'}));
+// Middleware
+app.use(cors());
 
-//Routes
-//http://localhost:3002
+// Routes
+// http://localhost:3002
 // app.use("/user", userRoute);
 // app.use("/item",itemRoute);
 
-// Асинхронная функция start()
+// Async function start()
 async function start() {
   try {
-    // Подключение к базе данных
-    // await mongoose.connect(`mongodb://${DB_URL}/${DB_NAME}`, {
-    //   useNewUrlParser: true,
-    //   useUnifiedTopology: true,
-    // });
-    console.log("Подключение к MongoDB успешно");
-    // Запуск сервера
+    // Connect to the database
+    await mongoose.connect(`mongodb://${DB_URL}/${DB_NAME}`);
+    console.log("Successfully connected to MongoDB");
+    // Start the server
+
     server.listen(PORT, () => {
       configureWebSocket(wss, folderToWatch);
-      configureExpressServer(app, server);
-      console.log(`Сервер запущен на порту ${PORT}`);
+      //configureExpressServer(app, server);
+      console.log(`Server is running on port ${PORT}`);
     });
+
   } catch (error) {
-    console.error("Ошибка при подключении к MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error);
   }
 }
 start();

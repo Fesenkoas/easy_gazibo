@@ -1,4 +1,5 @@
-function parseUrl(filePath, folderPath, fileName) {
+
+export const parseUrl = (filePath, folderPath, fileName) => {
     // Splitting the folderPath by backslash to get individual folders
     const folders = folderPath.split("\\");
     
@@ -31,8 +32,6 @@ function parseUrl(filePath, folderPath, fileName) {
       };
     } else {
       // Return an empty object if the condition is not met
-      return {};
+      return;
     }
   }
-  
-  module.exports = { parseUrl };
