@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 // Path to the folder you want to watch
-const folderToWatch = "C:/Users/Fesenko/Desktop/RIP";
+const folderToWatch = "//192.168.1.16/rip";
 
 // Constants
 const PORT = process.env.PORT || 3000;

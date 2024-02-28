@@ -16,19 +16,19 @@ import mongoose from "mongoose";
 
 
 const fabricSchema = new mongoose.Schema({
-  fabricName: { type: String, required: true },
+  fabricName: { type: String },
   item:[{ 
-    fullUrl: { type: String, required: true },
-    fileName: { type: String, required: true },
-    height: { type: Number, required: true },
-    width: { type: Number, required: true },
-    col: { type: Number, required: true }
+    fullUrl: { type: String },
+    fileName: { type: String },
+    height: { type: Number },
+    width: { type: Number },
+    col: { type: Number }
   }],
   
 });
 
 const folderDateSchema = new mongoose.Schema({
-  folderDate: { type: String, required: true },
+  folderDate: { type: String },
   folderFabric: [fabricSchema]
 });
 

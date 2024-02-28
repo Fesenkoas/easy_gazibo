@@ -10,7 +10,7 @@ export const configureWebSocket = (wss, folderToWatch) => {
     ignored: /^\./, // ignore hidden files
     persistent: true,
     usePolling: true, // use polling
-    interval: 500, // polling interval in milliseconds
+    interval: 1000, // polling interval in milliseconds
   });
 
   // Array to store new files
@@ -23,19 +23,20 @@ export const configureWebSocket = (wss, folderToWatch) => {
   watcher.on("add", (filePath) => {
     const fileName = path.basename(filePath);
     const folderPath = path.dirname(filePath);
+    
     newFiles.push(parseUrl(filePath, folderPath, fileName)); // Add new file to the array
 
     // If there is already an active timer, do nothing
     if (sendTimer) return;
 
-    
+  
     // Start timer to send files after 1 second
     sendTimer = setTimeout(() => {
       // If there are files in the array, send them to the client
       if (newFiles.length > 0) {
         try {
 
-          // console.log(newFiles);
+         //console.log(newFiles);
            addItem(newFiles);
         } catch (error) {
           console.error("Error adding item to database:", error);
