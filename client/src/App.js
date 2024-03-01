@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { ListView } from "./components/ListView";
-import { Header } from "./components/Header";
-import { LineChart } from "./components/LineChart";
+import { data } from "./util/temporaryDB";
+import { PageWorker } from "./page/PageWorker";
+import { Header } from "./page/Header";
 
 function App() {
   const [msg, setMsg] = useState([]);
+  const [timedb, setTimedb] = useState(data);
+  console.log(timedb);
   useEffect(() => {
     // Создаем новое подключение WebSocket
     const socket = new WebSocket("ws://localhost:3002");
@@ -41,19 +43,31 @@ function App() {
   }, [msg]);
   return (
     <div>
-      {/* {msg.map((item, key) => (
+      {/* {timedb.map((item, key) => (
         <div key={key}>
-          <div >{item.folderDate}</div>
-          <div >{item.folderFabric}</div>
-          <div >{item.name}</div>
-          <div >{item.height}</div>
-          <div >{item.width}</div>
-          <div >{item.col}</div>
-          <div >{item.url}</div>
+          <div>{item.folderDate}</div>
+          <div>
+            {item.folderFabric.map((i, key) => (
+              <div key={key}>
+                <div>{i.fabricName}</div>
+                <div>
+                  {i.item.map((y, key) => (
+                    <div>
+                      <div>{y.url}</div>
+                      <div>{y.fileName}</div>
+                      <div>{y.width}</div>
+                      <div>{y.height}</div>
+                      <div>{y.col}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ))} */}
       <Header/>
-      <ListView/>
+      <PageWorker/>
     </div>
   );
 }
