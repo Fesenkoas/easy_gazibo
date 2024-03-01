@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { ListView } from "./components/ListView";
+import { Header } from "./components/Header";
+import { LineChart } from "./components/LineChart";
 
 function App() {
   const [msg, setMsg] = useState([]);
@@ -39,7 +41,7 @@ function App() {
   }, [msg]);
   return (
     <div>
-      {msg.map((item, key) => (
+      {/* {msg.map((item, key) => (
         <div key={key}>
           <div >{item.folderDate}</div>
           <div >{item.folderFabric}</div>
@@ -49,7 +51,8 @@ function App() {
           <div >{item.col}</div>
           <div >{item.url}</div>
         </div>
-      ))}
+      ))} */}
+      <Header/>
       <ListView/>
     </div>
   );
