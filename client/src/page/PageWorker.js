@@ -1,7 +1,7 @@
 import React from "react";
 import { SideList } from "../components/SideList";
 import { SideStatistic } from "../components/SideStatistic";
-import { data, newData } from "../util/temporaryDB";
+import { newData } from "../util/temporaryDB";
 
 export const PageWorker = () => {
   return (
@@ -9,7 +9,7 @@ export const PageWorker = () => {
       {/* -------------------------------------Left---------------------------------------------------- */}
       <SideList data={newData}/>
       {/* -------------------------------------Right--------------------------------------------------- */}
-      <SideStatistic />
+      <SideStatistic data={newData}/>
       {/* --------------------------------------------------------------------------------------------- */}
     </div>
   );

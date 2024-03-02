@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { calculateHeightForFabric } from "../util/temporaryDB";
 
 export const SideList = ({ data }) => {
   // const [fabrick, setFabric] = useState(0);
   const [date, setDate] = useState(0);
   //  console.log(data);
+// Вызываем функцию и выводим результаты
+
+
+
   return (
     <div className="flex m-2 w-[870px] ml-8">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}

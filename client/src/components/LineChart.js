@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useRef } from "react";
+import Chart from "chart.js/auto";
+import { sempl } from "../util/temporaryDB";
 
 export const LineChart = () => {
-    const chartContainer = useRef(null);
+  const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
   useEffect(() => {
@@ -12,43 +13,44 @@ export const LineChart = () => {
     }
 
     if (chartContainer && chartContainer.current) {
-      const ctx = chartContainer.current.getContext('2d');
+      const ctx = chartContainer.current.getContext("2d");
       chartInstance.current = new Chart(ctx, {
-        type: 'line',
+        type: "line",
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [{
-            label: 'Printed',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-          },
-          {
-            label: 'Waste',
-            data: [0, 20, 40, 60, 80, 120, 140],
-            fill: false,
-            borderColor: 'rgb(255, 99, 132)',
-            tension: 0.1
-          }
-        ]
+          labels: sempl.day,
+          datasets: [
+            {
+              label: "Printed",
+              data: sempl.height,
+              fill: false,
+              borderColor: "rgb(75, 192, 192)",
+              tension: 0.1,
+            },
+            {
+              label: "Waste",
+              data: [0, 20, 30, 40, 50],
+              fill: false,
+              borderColor: "rgb(255, 99, 132)",
+              tension: 0.1,
+            },
+          ],
         },
         options: {
           scales: {
             x: {
-                title: {
-                  display: true,
+              title: {
+                display: true,
                 //   text: 'Day'
-                }
               },
-              y: {
-                title: {
-                  display: true,
+            },
+            y: {
+              title: {
+                display: true,
                 //   text: 'Metr'
-                }
-              }
-          }
-        }
+              },
+            },
+          },
+        },
       });
     }
 
@@ -61,4 +63,4 @@ export const LineChart = () => {
   }, []);
 
   return <canvas ref={chartContainer} />;
-}
+};
