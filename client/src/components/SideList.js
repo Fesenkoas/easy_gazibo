@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 export const SideList = ({ data }) => {
-  const [fabrick, setFabric] = useState(0);
+  // const [fabrick, setFabric] = useState(0);
   const [date, setDate] = useState(0);
-  console.log(data);
+  //  console.log(data);
   return (
     <div className="flex m-2 w-[870px] ml-8">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}
@@ -15,7 +15,7 @@ export const SideList = ({ data }) => {
                 onClick={() => setDate(key)}
               >
                 <p className="rotate-90 whitespace-nowrap leading-6 font-bold">
-                  {item.folderDate}
+                  {item.fabricName}
                 </p>
               </button>
         ))}
@@ -25,11 +25,11 @@ export const SideList = ({ data }) => {
         <div className="my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874]">
           <p className="text-white m-3">FILES</p>
         </div>
-            {data[date].folderFabric.map((i, iKey) => (
+            {data[date].folderDate.map((i, iKey) => (
               <div key={iKey}>
               <div className="my-2 mx-auto rounded-lg h-[33px] w-[95%] bg-[#D1CEFF]">
               <p className="text-[#0E0874] text-center m-auto">
-                {i.fabricName}
+                {i.date}
               </p>
             </div>
                 {i.item.map((y, yKey) => (

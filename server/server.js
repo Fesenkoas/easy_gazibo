@@ -5,7 +5,7 @@ import cors from "cors";
 import { WebSocketServer } from "ws";
 import dotenv from "dotenv";
 import { configureWebSocket } from "./socket/configureWebSocket.js";
-import { configureExpressServer } from "./path/configureExpressServer.js";
+// import { configureExpressServer } from "./path/configureExpressServer.js";
 
 const app = express();
 dotenv.config();
@@ -13,7 +13,9 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 // Path to the folder you want to watch
-const folderToWatch = "//192.168.1.16/rip";
+
+const folderToWatch = 'C://Users//Fesenko//Desktop//rip';
+// const folderToWatch = "//192.168.1.16/rip";
 
 // Constants
 const PORT = process.env.PORT || 3000;

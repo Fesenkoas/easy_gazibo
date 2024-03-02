@@ -1,15 +1,15 @@
 import React from "react";
 import { SideList } from "../components/SideList";
 import { SideStatistic } from "../components/SideStatistic";
-import { data } from "../util/temporaryDB";
+import { data, newData } from "../util/temporaryDB";
 
 export const PageWorker = () => {
   return (
     <div className="flex  absolute bottom-0 top-14 inset-x-0">
       {/* -------------------------------------Left---------------------------------------------------- */}
-      <SideList data={data}/>
+      <SideList data={newData}/>
       {/* -------------------------------------Right--------------------------------------------------- */}
-      <SideStatistic data={data} />
+      <SideStatistic />
       {/* --------------------------------------------------------------------------------------------- */}
     </div>
   );

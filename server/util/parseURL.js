@@ -29,7 +29,7 @@ export const parseUrl = (filePath, folderPath, fileName) => {
  }
 
  // Check if extractedFolders has at least 2 elements before constructing the object
- if (extractedFolders.length >= 2) {
+ if (extractedFolders.length >= 2 && fileName.match(regex)) {
    // Constructing the object with parsed information
    return {
      url: filePath,

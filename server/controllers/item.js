@@ -1,68 +1,69 @@
 import FileList from "../models/FileList.js";
 
 export const addItem = async (req, res) => {
-  
-  for (const item of req) {
-    try {
+  try {
+    for (const item of req) {
       if (item) {
-        const { url, folderDate, folderFabric, name, height, width, col } =
-          item;
-        const isDate = await FileList.findOne({ folderDate });
-        if (isDate) {
-          const isFabric = isDate.folderFabric.findIndex(
-            (item) => item.fabricName === folderFabric
-          );
-          const isName = isDate.folderFabric.findIndex((item) =>
-            item.item.some((file) => file.fileName === name)
-          );
-          if (isFabric >= 0 && isName < 0) {
-            await FileList.findByIdAndUpdate(
-              isDate._id,
+        const { url, folderDate, folderFabric, name, height, width, col } = item;
+        const isFabric = await FileList.findOne({ folderFabric });
+        
+        if (isFabric) {
+          const isDate = isFabric.folderDate.findIndex((item) => item.date === folderDate);
+          const isName = isFabric.folderDate.findIndex((item) => item.item.some((file) => file.fileName === name));
+          
+          if (isDate >= 0 && isName < 0) {
+            await FileList.findByIdAndUpdate(isFabric._id,
               {
                 $push: {
-                  "folderFabric.$[fabric].item": {
+                  "folderDate.$[date].item": {
                     fullUrl: url,
-                    fileName: name,
+                    fileName: name, 
                     height,
                     width,
                     col,
+                    print: false,
+                    waste: 0,
                   },
                 },
               },
               {
                 arrayFilters: [
                   {
-                    "fabric.fabricName": folderFabric,
+                    "date.date": "03.03" 
                   },
                 ],
               }
             );
-            console.log("new file", name, "in folder:", folderFabric);
-          } else if (isFabric < 0) {
+            console.log("new file", name, "in folder:", folderDate);
+            return;
+          } 
+          if (isDate < 0) {
             const upItem = {
-              fabricName: folderFabric,
+              date: folderDate,
               item: [
                 {
-                  fullUrl: url,
-                  fileName: name,
-                  height,
-                  width,
-                  col,
+                    fullUrl: url,
+                    fileName: name,
+                    height,
+                    width,
+                    col,
+                    print: false,
+                    waste: 0,
                 },
               ],
             };
-            await FileList.findByIdAndUpdate(isDate._id, {
-              $push: { folderFabric: upItem },
+            await FileList.findByIdAndUpdate(isFabric._id, {
+              $push: { folderDate: upItem },
             });
-            console.log("new fabric", folderFabric, "with file:", name);
+            console.log("new Date", folderDate, "with file:", name);
+            return;
           }
-          //console.log("такой фаил существует");
         } else {
           const newItem = new FileList({
-            folderDate,
-            folderFabric: [
+            folderFabric,
+            folderDate: [
               {
-                fabricName: folderFabric,
+                date: folderDate,
                 item: [
                   {
                     fullUrl: url,
@@ -70,6 +71,8 @@ export const addItem = async (req, res) => {
                     height,
                     width,
                     col,
+                    print: false,
+                    waste: 0,
                   },
                 ],
               },
@@ -77,20 +80,13 @@ export const addItem = async (req, res) => {
           });
           await newItem.save();
           console.log("Message Sent");
+          return;
         }
       }
-    } catch (error) {
-      console.error("Error in addItem function:", error);
-      // Throw the error to handle it upstream
-      throw error;
     }
+  } catch (error) {
+    console.error("Error in addItem function:", error);
+    // Throw the error to handle it upstream
+    throw error;
   }
 };
-
-//         fullUrl: filePath,
-//         folderDate: extractedFolders[0],
-//         fabricName: extractedFolders[1] || "Specify fabric",
-//         fileName: fileName,
-//         height,
-//         width,
-//         col: parseInt(col.substring(1)) || 0,

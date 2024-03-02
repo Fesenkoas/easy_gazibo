@@ -1,35 +1,23 @@
 import mongoose from "mongoose";
 
-// const FileListShema = new mongoose.Schema(
-//   {
-//     fullObject: [
-//       {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "FolderDate",
-//       },
-//     ],
-//   },
-//   { timestamps: true }
-// );
-
-// export default mongoose.model("FileList", FileListShema);
-
-
-const fabricSchema = new mongoose.Schema({
-  fabricName: { type: String },
-  item:[{ 
-    fullUrl: { type: String },
-    fileName: { type: String },
-    height: { type: Number },
-    width: { type: Number },
-    col: { type: Number }
-  }],
-  
+const dateSchema = new mongoose.Schema({
+  date: { type: String },
+  item: [
+    {
+      fullUrl: { type: String },
+      fileName: { type: String },
+      height: { type: Number },
+      width: { type: Number },
+      col: { type: Number },
+      print: { type: Boolean },
+      waste: { type: Number },
+    },
+  ],
 });
 
-const folderDateSchema = new mongoose.Schema({
-  folderDate: { type: String },
-  folderFabric: [fabricSchema]
+const folderFabricSchema = new mongoose.Schema({
+  folderFabric: { type: String },
+  folderDate: [dateSchema],
 });
 
-export default mongoose.model('FileList', folderDateSchema);
+export default mongoose.model("FileList", folderFabricSchema);
