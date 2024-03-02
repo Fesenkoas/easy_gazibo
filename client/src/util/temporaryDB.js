@@ -1,6 +1,6 @@
 export const data = [
   {
-    folderDate: "22.02",
+    folderDate: "23.02",
     folderFabric: [
       {
         fabricName: "Backlit320",
@@ -11,13 +11,27 @@ export const data = [
             height: "320",
             width: "335",
             col: 4,
+            print:false
+          },
+        ],
+      },
+      {
+        fabricName: "Strech",
+        item: [
+          {
+            fullUrl: "url",
+            fileName: "1 Mapa 180 300x200cm X1",
+            height: "500",
+            width: "300",
+            col: 1,
+            print:false
           },
         ],
       },
     ],
   },
   {
-    folderDate: "23.02",
+    folderDate: "22.02",
     folderFabric: [
       {
         fabricName: "Flag",
@@ -28,6 +42,7 @@ export const data = [
             height: "500",
             width: "300",
             col: 2,
+            print:false
           },
         ],
       },
