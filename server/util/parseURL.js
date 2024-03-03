@@ -42,6 +42,6 @@ export const parseUrl = (filePath, folderPath, fileName) => {
    };
  } else {
    // Return an empty object if the condition is not met
-   return {};
+   return -1;
  }
   }

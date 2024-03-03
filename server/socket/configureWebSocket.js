@@ -2,7 +2,7 @@ import chokidar from "chokidar";
 import WebSocket from "ws";
 import path from "path";
 import { parseUrl } from "../util/parseURL.js";
-import { addItem } from "../controllers/item.js";
+import { AddPrintFile } from "../controllers/PrintFile.js";
 
 export const configureWebSocket = (wss, folderToWatch) => {
   // Setting up file watching using chokidar
@@ -23,7 +23,7 @@ export const configureWebSocket = (wss, folderToWatch) => {
   watcher.on("add", (filePath) => {
     const fileName = path.basename(filePath);
     const folderPath = path.dirname(filePath);
-    
+    if(parseUrl(filePath, folderPath, fileName) !== -1)
     newFiles.push(parseUrl(filePath, folderPath, fileName)); // Add new file to the array
 
     // If there is already an active timer, do nothing
@@ -37,7 +37,7 @@ export const configureWebSocket = (wss, folderToWatch) => {
         try {
 
          //console.log(newFiles);
-           addItem(newFiles);
+         AddPrintFile(newFiles);
         } catch (error) {
           console.error("Error adding item to database:", error);
         }

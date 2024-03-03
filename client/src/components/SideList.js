@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { calculateHeightForFabric } from "../util/temporaryDB";
+// import { calculateHeightForFabric } from "../util/temporaryDB";
 
 export const SideList = ({ data }) => {
   // const [fabrick, setFabric] = useState(0);

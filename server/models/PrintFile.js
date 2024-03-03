@@ -20,4 +20,4 @@ const folderFabricSchema = new mongoose.Schema({
   folderDate: [dateSchema],
 });
 
-export default mongoose.model("FileList", folderFabricSchema);
+export default mongoose.model("PrintFile", folderFabricSchema);
