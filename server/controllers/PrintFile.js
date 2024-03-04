@@ -106,9 +106,9 @@ export const getAll = async (req, res) => {
   }
 };
 
-//Update Post
+//Update File
 
-export const updatePost = async (req, res) => {
+export const updatePrintFile = async (req, res) => {
   try {
     // const { title, text, id } = req.body;
     // const file = awaitPrintFile.findById(name);

@@ -5,6 +5,7 @@ import cors from "cors";
 import { WebSocketServer } from "ws";
 import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
+import printRoute from "./routes/PrintFile.js";
 import { configureWebSocket } from "./socket/configureWebSocket.js";
 // import { configureExpressServer } from "./path/configureExpressServer.js";
 
@@ -31,8 +32,7 @@ app.use(cors());
 // Routes
 // http://localhost:3002
 app.use("/api/auth", authRoute);
-// app.use("/user", userRoute);
-// app.use("/item",itemRoute);
+app.use("/print",printRoute);
 
 // Async function start()
 async function start() {
