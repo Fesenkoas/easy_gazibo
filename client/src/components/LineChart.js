@@ -7,7 +7,6 @@ export const LineChart = () => {
   const chartInstance = useRef(null);
 
   useEffect(() => {
-    // Уничтожаем предыдущий график перед созданием нового
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
@@ -53,8 +52,6 @@ export const LineChart = () => {
         },
       });
     }
-
-    // Возвращаем функцию очистки, которая уничтожает график при размонтировании компонента
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();

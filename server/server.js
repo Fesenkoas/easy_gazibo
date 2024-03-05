@@ -38,10 +38,8 @@ app.use("/print",printRoute);
 // Async function start()
 async function start() {
   try {
-    // Connect to the database
     await mongoose.connect(`mongodb://${DB_URL}/${DB_NAME}`);
     console.log("Successfully connected to MongoDB");
-    // Start the server
     server.listen(PORT, () => {
       configureWebSocket(wss, folderToWatch);
       //configureExpressServer(app, server);

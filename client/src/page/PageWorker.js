@@ -24,27 +24,3 @@ export const PageWorker = () => {
     </div>
   );
 };
-
-// {/* {timedb.map((item, key) => (
-//         <div key={key}>
-//           <div>{item.folderDate}</div>
-//           <div>
-//             {item.folderFabric.map((i, key) => (
-//               <div key={key}>
-//                 <div>{i.fabricName}</div>
-//                 <div>
-//                   {i.item.map((y, key) => (
-//                     <div>
-//                       <div>{y.url}</div>
-//                       <div>{y.fileName}</div>
-//                       <div>{y.width}</div>
-//                       <div>{y.height}</div>
-//                       <div>{y.col}</div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       ))} */}

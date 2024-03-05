@@ -88,7 +88,6 @@ export const AddPrintFile = async (req, res) => {
     }
   } catch (error) {
     console.error("Error in addItem function:", error);
-    // Throw the error to handle it upstream
     throw error;
   }
 };

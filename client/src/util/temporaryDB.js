@@ -118,14 +118,14 @@ export const newData = [
 ];
 
 
-// Функция для подсчета высоты за день, неделю и месяц для определенного fabricName
+
 export function calculateHeightForFabric(data, fabricName) {
   let totalHeightDay = 0;
   let totalHeightWeek = 0;
   let totalHeightMonth = 0;
 
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1; // Месяцы в JavaScript нумеруются с 0
+  const currentMonth = currentDate.getMonth() + 1;
 
   data.forEach(entry => {
     if (entry.fabricName === fabricName) {
