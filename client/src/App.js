@@ -1,26 +1,16 @@
 import React from "react";
 import  { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { PageWorker } from "./page/PageWorker";
 import { Header } from "./page/Header";
-import { getAllPrintFile } from "./features/redux/printSlice";
-import { getAllPrintFileFetch } from "./features/action/fetchPrint";
 
 function App() {
   const [msg, setMsg] = useState([]);
-  const { printFile, loading } = useSelector((state) => state.printFile);
-  const dispatch = useDispatch();
+  
 
-
-// useEffect(()=>{
-// dispatch(getAllPrintFileFetch());
-// //  if(loading)console.log(printFile);
-
-// },[dispatch])
   useEffect(() => {
     // Создаем новое подключение WebSocket
-    const socket = new WebSocket("ws://localhost:3002");
+    const socket = new WebSocket("ws://localhost:3001");
 
     // Обработчик события открытия соединения
     socket.addEventListener("open", function (event) {
@@ -35,7 +25,6 @@ function App() {
       // Делаем что-то с полученными данными
       console.log("Получено сообщение:", data);
     });
-
     // Обработчик события закрытия соединения
     socket.addEventListener("close", function (event) {
       console.log("WebSocket соединение закрыто");

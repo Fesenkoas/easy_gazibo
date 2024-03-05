@@ -4,9 +4,7 @@ import { calculateHeightForFabric } from "../util/temporaryDB";
 
 export const SideStatistic = ({ data }) => {
   const heights = calculateHeightForFabric(data, "Backlit320");
-  console.log("Высота за день:", heights.totalHeightDay);
-  console.log("Высота за неделю:", heights.totalHeightWeek);
-  console.log("Высота за месяц:", heights.totalHeightMonth);
+  
   return (
     <div className=" flex flex-wrap justify-center  m-3 w-[870px]">
       <div className="m-1 rounded-lg h-[168px] w-[280px] border-2 border-[#D9DCE4]">

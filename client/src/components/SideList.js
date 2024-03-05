@@ -1,26 +1,23 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 // import { calculateHeightForFabric } from "../util/temporaryDB";
 
-export const SideList = ({ data }) => {
-  // const [fabrick, setFabric] = useState(0);
+export const SideList = () => {
+  const { printFile, loading } = useSelector((state) => state.printFile);
   const [date, setDate] = useState(0);
-  //  console.log(data);
-// Вызываем функцию и выводим результаты
-
-
 
   return (
     <div className="flex m-2 w-[870px] ml-8">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}
       <div className="flex flex-col">
-        {data.map((item, key) => (
+        {loading && printFile.map((item, key) => (
           <button
                 key={key}
                 className="flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
                 onClick={() => setDate(key)}
               >
                 <p className="rotate-90 whitespace-nowrap leading-6 font-bold">
-                  {item.fabricName}
+                  {item.folderFabric}
                 </p>
               </button>
         ))}
@@ -30,7 +27,7 @@ export const SideList = ({ data }) => {
         <div className="my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874]">
           <p className="text-white m-3">FILES</p>
         </div>
-            {data[date].folderDate.map((i, iKey) => (
+            {loading && printFile[date].folderDate.map((i, iKey) => (
               <div key={iKey}>
               <div className="my-2 mx-auto rounded-lg h-[33px] w-[95%] bg-[#D1CEFF]">
               <p className="text-[#0E0874] text-center m-auto">

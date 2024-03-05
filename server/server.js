@@ -35,7 +35,6 @@ app.use(cors());
 app.use("/api/auth", authRoute);
 app.use("/print",printRoute);
 
-
 // Async function start()
 async function start() {
   try {
