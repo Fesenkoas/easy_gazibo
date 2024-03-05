@@ -7,12 +7,13 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
 import printRoute from "./routes/PrintFile.js";
 import { configureWebSocket } from "./socket/configureWebSocket.js";
-// import { configureExpressServer } from "./path/configureExpressServer.js";
+//import { configureExpressServer } from "./path/configureExpressServer.js";
 
 const app = express();
 dotenv.config();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+
 
 // Path to the folder you want to watch
 
@@ -34,6 +35,7 @@ app.use(cors());
 app.use("/api/auth", authRoute);
 app.use("/print",printRoute);
 
+
 // Async function start()
 async function start() {
   try {
@@ -41,7 +43,6 @@ async function start() {
     await mongoose.connect(`mongodb://${DB_URL}/${DB_NAME}`);
     console.log("Successfully connected to MongoDB");
     // Start the server
-
     server.listen(PORT, () => {
       configureWebSocket(wss, folderToWatch);
       //configureExpressServer(app, server);

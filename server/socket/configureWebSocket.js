@@ -28,25 +28,23 @@ export const configureWebSocket = (wss, folderToWatch) => {
 
     // If there is already an active timer, do nothing
     if (sendTimer) return;
-
-  
     // Start timer to send files after 1 second
-    sendTimer = setTimeout(() => {
+    sendTimer = setTimeout(async () => {
       // If there are files in the array, send them to the client
       if (newFiles.length > 0) {
         try {
 
          //console.log(newFiles);
-         AddPrintFile(newFiles);
+         await AddPrintFile(newFiles);
         } catch (error) {
           console.error("Error adding item to database:", error);
         }
         // Send the array of files to the frontend via WebSocket
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
-          }
-        });
+        // wss.clients.forEach((client) => {
+        //   if (client.readyState === WebSocket.OPEN) {
+        //     client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
+        //   }
+        // });
         // Clear the array of new files
         newFiles = [];
       }

@@ -1,3 +1,4 @@
+
 Компонент React для преобразования файлов в base64
 
 npm i react-file-base64
