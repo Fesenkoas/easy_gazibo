@@ -40,11 +40,11 @@ export const configureWebSocket = (wss, folderToWatch) => {
           console.error("Error adding item to database:", error);
         }
         // Send the array of files to the frontend via WebSocket
-        // wss.clients.forEach((client) => {
-        //   if (client.readyState === WebSocket.OPEN) {
-        //     client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
-        //   }
-        // });
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
+          }
+        });
         // Clear the array of new files
         newFiles = [];
       }
