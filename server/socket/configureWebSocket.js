@@ -25,11 +25,11 @@ export const configureWebSocket = (wss, folderToWatch) => {
 
     if (sendTimer) return;
   
-    sendTimer = setTimeout(async () => {
+    sendTimer = setTimeout(() => {
     
       if (newFiles.length > 0) {
         try {
-         await AddPrintFile(newFiles);
+          AddPrintFile(newFiles);
         } catch (error) {
           console.error("Error adding item to database:", error);
         }

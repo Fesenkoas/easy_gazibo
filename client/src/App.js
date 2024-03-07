@@ -8,28 +8,28 @@ function App() {
   const [msg, setMsg] = useState([]);
   
 
-  useEffect(() => {
+  // useEffect(() => {
   
-    const socket = new WebSocket("ws://localhost:3001");
+  //   const socket = new WebSocket("ws://localhost:3001");
    
-    socket.addEventListener("open", function (event) {
-      console.log("WebSocket соединение установлено");
-    });
-    socket.addEventListener("message", function (event) {
-      const data = JSON.parse(event.data);
-      data.path.map((item, key) => setMsg((prevMsg) => [...prevMsg, item]));
-      console.log("Получено сообщение:", data);
-    });
-    socket.addEventListener("close", function (event) {
-      console.log("WebSocket соединение закрыто");
-    });
-    socket.addEventListener("error", function (event) {
-      console.error("WebSocket ошибка:", event);
-    });
-    return () => {
-      socket.close();
-    };
-  }, [msg]);
+  //   socket.addEventListener("open", function (event) {
+  //     console.log("WebSocket соединение установлено");
+  //   });
+  //   socket.addEventListener("message", function (event) {
+  //     const data = JSON.parse(event.data);
+  //     data.path.map((item, key) => setMsg((prevMsg) => [...prevMsg, item]));
+  //     console.log("Получено сообщение:", data);
+  //   });
+  //   socket.addEventListener("close", function (event) {
+  //     console.log("WebSocket соединение закрыто");
+  //   });
+  //   socket.addEventListener("error", function (event) {
+  //     console.error("WebSocket ошибка:", event);
+  //   });
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, [msg]);
   return (
     <div>
       <Header/>

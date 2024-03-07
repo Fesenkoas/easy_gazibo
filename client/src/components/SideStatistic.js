@@ -2,8 +2,8 @@ import React from "react";
 import { LineChart } from "./LineChart";
 import { calculateHeightForFabric } from "../util/temporaryDB";
 
-export const SideStatistic = ({ data }) => {
-  const heights = calculateHeightForFabric(data, "Backlit320");
+export const SideStatistic = ({ data, fabricName }) => {
+  const heights = calculateHeightForFabric(data, fabricName);
   
   return (
     <div className=" flex flex-wrap justify-center  m-3 w-[870px]">

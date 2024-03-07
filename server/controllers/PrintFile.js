@@ -2,20 +2,20 @@ import PrintFile from "../models/PrintFile.js";
 //Add Print File
 export const AddPrintFile = async (req, res) => {
   try {
+    // console.log(req);
     for (const item of req) {
       if (item) {
         const { url, folderDate, folderFabric, name, height, width, col } =
           item;
         const isFabric = await PrintFile.findOne({ folderFabric });
-
+  
         if (isFabric) {
           const isDate = isFabric.folderDate.findIndex(
             (item) => item.date === folderDate
           );
           const isName = isFabric.folderDate.findIndex((item) =>
-            item.item.some((file) => file.fileName === name)
+            item.fileName === name
           );
-
           if (isDate >= 0 && isName < 0) {
             await PrintFile.findByIdAndUpdate(
               isFabric._id,
@@ -86,6 +86,9 @@ export const AddPrintFile = async (req, res) => {
         }
       }
     }
+    // return res.json({
+    //   message: "File Add",
+    // });
   } catch (error) {
     console.error("Error in addItem function:", error);
     throw error;
@@ -109,8 +112,8 @@ export const getAll = async (req, res) => {
 
 export const updatePrintFile = async (req, res) => {
   try {
-    // const { title, text, id } = req.body;
-    // const file = awaitPrintFile.findById(name);
+    // const { _id } = req.body;
+    // const file = await PrintFile.findById(_id);
     // if (req.files) {
     //   let fileName = Date.now().toString() + req.files.image.name;
     //   const __dirname = dirname(fileURLToPath(import.meta.url));

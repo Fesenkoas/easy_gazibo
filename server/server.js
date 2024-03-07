@@ -24,8 +24,6 @@ const folderToWatch = "C://Users//Fesenko//Desktop//rip";
 const PORT = process.env.PORT || 3000;
 const DB_NAME = process.env.DB_NAME;
 const DB_URL = process.env.DB_URL;
-const PASSWORD = process.env.DB_PASSWORD;
-const USER = process.env.DB_USER;
 
 // Middleware
 app.use(cors());
@@ -49,8 +47,9 @@ async function start() {
     console.error("Error connecting to MongoDB:", error);
   }
 }
-start();
 
+
+start();
 // pm2 start server.js
 // pm2 stop server.js
 // pm2 start ecosystem.config.js

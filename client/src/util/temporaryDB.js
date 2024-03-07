@@ -17,144 +17,144 @@ export const line = {
     },
   ],
 };
-export const sempl={
-  day:['02.03','03.03','04.03',],
-  height:['320','630','520']
-}
-export const graph =[
-{
-  day:'02.03',
-  height:'320'
-},
-{
-  day:'03.03',
-  height:'630'
-},
-{
-  day:'04.03',
-  height:'520'
-}
-
-
-
-]
+export const sempl = {
+  day: ["02.03", "03.03", "04.03"],
+  height: ["320", "630", "520"],
+};
+export const graph = [
+  {
+    day: "02.03",
+    height: "320",
+  },
+  {
+    day: "03.03",
+    height: "630",
+  },
+  {
+    day: "04.03",
+    height: "520",
+  },
+];
 export const newData = [
   {
-  fabricName: "Backlit320",
-  folderDate: [
-    {
-      date: "01.03",
-      waste: "100",
-      item: [
-        {
-          fullUrl: "url",
-          fileName: "1 Mapa 180 320x335cm X4",
-          height: "310",
-          width: "335",
-          col: 4,
-          print: false,
-        },
-        {
-          fullUrl: "url",
-          fileName: "2 Mapa 180 320x335cm X4",
-          height: "310",
-          width: "335",
-          col: 4,
-          print: false,
-        }
-      ],
-    },
-    {
-      date: "02.03",
-      waste: "100",
-      item: [
-        {
-          fullUrl: "url",
-          fileName: "1 Mapa 180 320x335cm X4",
-          height: "320",
-          width: "335",
-          col: 4,
-          print: false,
-        }
-      ],
-    },
-    
-  ],
-},
-{
-  fabricName: "Flag",
-  folderDate: [
-    {
-      date: "23.02",
-      waste: "100",
-      item: [
-        {
-          fullUrl: "url",
-          fileName: "1 Mapa 180 320x335cm X4",
-          height: "320",
-          width: "335",
-          col: 4,
-          print: false,
-        },
-      ],
-    },
-    {
-      date: "22.02",
-      waste: "100",
-      item: [
-        {
-          fullUrl: "url",
-          fileName: "1 Mapa 180 320x335cm X4",
-          height: "320",
-          width: "335",
-          col: 4,
-          print: false,
-        }
-      ],
-    },
-    
-  ],
-}
+    fabricName: "Backlit320",
+    folderDate: [
+      {
+        date: "01.03",
+        waste: "100",
+        item: [
+          {
+            fullUrl: "url",
+            fileName: "1 Mapa 180 320x335cm X4",
+            height: "310",
+            width: "335",
+            col: 4,
+            print: false,
+          },
+          {
+            fullUrl: "url",
+            fileName: "2 Mapa 180 320x335cm X4",
+            height: "310",
+            width: "335",
+            col: 4,
+            print: false,
+          },
+        ],
+      },
+      {
+        date: "02.03",
+        waste: "100",
+        item: [
+          {
+            fullUrl: "url",
+            fileName: "1 Mapa 180 320x335cm X4",
+            height: "320",
+            width: "335",
+            col: 4,
+            print: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    folderFabric: "Flag",
+    folderDate: [
+      {
+        date: "23.02",
+        waste: "100",
+        item: [
+          {
+            fullUrl: "url",
+            fileName: "1 Mapa 180 320x335cm X4",
+            height: "320",
+            width: "335",
+            col: 4,
+            print: false,
+          },
+        ],
+      },
+      {
+        date: "22.02",
+        waste: "100",
+        item: [
+          {
+            fullUrl: "url",
+            fileName: "1 Mapa 180 320x335cm X4",
+            height: "320",
+            width: "335",
+            col: 4,
+            print: false,
+          },
+        ],
+      },
+    ],
+  },
 ];
-
-
 
 export function calculateHeightForFabric(data, fabricName) {
   let totalHeightDay = 0;
   let totalHeightWeek = 0;
   let totalHeightMonth = 0;
-
+  console.log(fabricName);
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
+  
+  data.forEach((entry) => {
+    if (entry.folderFabric === fabricName) {
+      entry.folderDate.forEach((folder) => {
+        const [day, month] = folder.date.split(".");
 
-  data.forEach(entry => {
-    if (entry.fabricName === fabricName) {
-      entry.folderDate.forEach(folder => {
-        const [day, month] = folder.date.split('.');
-
-        folder.item.forEach(item => {
+        folder.item.forEach((item) => {
           const height = parseInt(item.height);
           const col = parseInt(item.col);
 
-          if (parseInt(day) === currentDate.getDate() && parseInt(month) === (currentDate.getMonth() + 1)) {
-            totalHeightDay += height*col;
+          if (
+            parseInt(day) === currentDate.getDate() &&
+            parseInt(month) === currentDate.getMonth() + 1
+          ) {
+            totalHeightDay += height * col;
           }
 
-          if (parseInt(day) >= currentDate.getDate() - currentDate.getDay() + 1 && parseInt(month) === (currentDate.getMonth() + 1)) {
-            totalHeightWeek += height*col;
+          if (
+            parseInt(day) >= currentDate.getDate() - currentDate.getDay() + 1 &&
+            parseInt(month) === currentDate.getMonth() + 1
+          ) {
+            totalHeightWeek += height * col;
           }
 
           if (parseInt(month) === currentMonth) {
-            totalHeightMonth += height*col;
+            totalHeightMonth += height * col;
           }
         });
       });
     }
   });
+  console.log(totalHeightDay, totalHeightWeek, totalHeightMonth);
 
   return {
     totalHeightDay,
     totalHeightWeek,
-    totalHeightMonth
+    totalHeightMonth,
   };
 }
