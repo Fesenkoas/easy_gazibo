@@ -9,8 +9,7 @@ export const LineChart = () => {
 
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
-  
-console.log(line.day);
+
   useEffect(() => {
     if (chartInstance.current) {
       chartInstance.current.destroy();

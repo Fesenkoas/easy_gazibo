@@ -13,11 +13,15 @@ const dateSchema = new mongoose.Schema({
       waste: { type: Number },
     },
   ],
-});
+},
+{timestamps:true}
+);
 
 const folderFabricSchema = new mongoose.Schema({
   folderFabric: { type: String },
   folderDate: [dateSchema],
-});
+},
+{timestamps:true}
+);
 
 export default mongoose.model("PrintFile", folderFabricSchema);

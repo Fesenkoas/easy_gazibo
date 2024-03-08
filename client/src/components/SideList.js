@@ -6,6 +6,7 @@ import {
 } from "../features/action/fetchPrint";
 import { print } from "../util/icon";
 import { calcFabrick } from "../features/redux/calcFabricSlice";
+import { signal } from "../util/temporaryDB";
 
 export const SideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
@@ -55,14 +56,15 @@ export const SideList = () => {
                 key={key}
                 className={
                   date === key
-                    ? "flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#739D00] mt-2"
-                    : "flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
+                    ? "flex flex-col items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#739D00] mt-2"
+                    : "flex flex-col items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
                 }
                 onClick={() => handleNameFabric(key)}
               >
                 <p className="rotate-90 whitespace-nowrap leading-6 font-bold">
-                  {item.folderFabric}
+                  {item.folderFabric}  {signal(item,key)}
                 </p>
+                
               </button>
             ))}
         </div>
@@ -87,7 +89,7 @@ export const SideList = () => {
                   className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between"
                 >
                   <p className={y.print ? "text-[#9E9E9E]" : "text-[#0E0874]"}>
-                    {y.fileName}
+                    {`${yKey+1})  ${ y.fileName}`}
                   </p>
                   <div className="flex flex-row mr-1 ">
                     <button
