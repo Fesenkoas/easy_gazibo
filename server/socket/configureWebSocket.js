@@ -4,8 +4,11 @@ import path from "path";
 import { parseUrl } from "../util/parseURL.js";
 import { AddPrintFile } from "../controllers/PrintFile.js";
 
+let server;
+
 export const configureWebSocket = (wss, folderToWatch) => {
 
+  server = wss
   const watcher = chokidar.watch(folderToWatch, {
     ignored: /^\./,
     persistent: true,
@@ -50,8 +53,23 @@ export const configureWebSocket = (wss, folderToWatch) => {
 
   wss.on("connection", (ws) => {
     console.log("New WebSocket connection");
+
+    ws.on("message", (message) => {
+      console.log("Received message from client:", message);
+    });
+
     ws.on("close", () => {
       console.log("WebSocket connection closed");
     });
   });
 };
+
+
+
+export function sendObjectUpdateNotificationToAllClients() {
+  server.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: "object_updated" }));
+    }
+  });
+}

@@ -3,11 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   printFile: [],
+  data:{}
 };
 
 
 const printSlice = createSlice({
-    name: "manager",
+    name: "print",
     initialState,
     reducers: {
         getAllPrintFile(state, action){
@@ -20,7 +21,7 @@ const printSlice = createSlice({
       },
     },
   });
-  export const reduxPrintFile = (state) => state.manager;
+
   export default printSlice.reducer;
   export const {
     getAllPrintFile,

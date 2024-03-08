@@ -27,6 +27,7 @@ const DB_URL = process.env.DB_URL;
 
 // Middleware
 app.use(cors());
+app.use(express.json());
 
 // Routes
 // http://localhost:3002

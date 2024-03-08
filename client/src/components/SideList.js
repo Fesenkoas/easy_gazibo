@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPrintFileFetch } from "../features/action/fetchPrint";
-// import { calculateHeightForFabric } from "../util/temporaryDB";
+import {getAllPrintFileFetch, putUpdatePrintFileFetch,
+} from "../features/action/fetchPrint";
+import { print } from "../util/icon";
+import { calcFabrick } from "../features/redux/calcFabricSlice";
 
-export const SideList = ({ setFabricName }) => {
+
+
+export const SideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
   const [date, setDate] = useState(0);
   const dispatch = useDispatch();
 
-  const handleClickPrint = () => {
-    console.log("Done!!");
-    console.log(printFile[0].folderDate[0].item[0]);
+  const handleClickPrint = (id_0, id_1, id_2) => {
+    dispatch(putUpdatePrintFileFetch({ id_0, id_1, id_2 }));
   };
 
   const handleNameFabric = (key) => {
     setDate(key);
-    setFabricName(printFile[date].folderFabric);
+    dispatch(calcFabrick({data:printFile,fabricName:printFile[date].folderFabric}));
   };
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export const SideList = ({ setFabricName }) => {
     });
     socket.addEventListener("message", function (event) {
       const data = JSON.parse(event.data);
-      console.log("Получено сообщение:", data);
+      console.log("Получено сообщение:", data.type);
       dispatch(getAllPrintFileFetch());
     });
     socket.addEventListener("close", function (event) {
@@ -48,7 +51,11 @@ export const SideList = ({ setFabricName }) => {
             printFile.map((item, key) => (
               <button
                 key={key}
-                className="flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
+                className={
+                  date === key
+                    ? "flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#739D00] mt-2"
+                    : "flex items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
+                }
                 onClick={() => handleNameFabric(key)}
               >
                 <p className="rotate-90 whitespace-nowrap leading-6 font-bold">
@@ -60,9 +67,12 @@ export const SideList = ({ setFabricName }) => {
       </div>
       {/* --------------------------------------------------------------------------------------------- */}
       <div className="flex flex-col m-2 w-[820px] border-2 border-[#D9DCE4] rounded-lg overflow-y-scroll">
-        <div className="my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874]">
+        <div className="flex my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874] justify-between">
           <p className="text-white m-3">
             FILES: {loading && printFile[date].folderFabric}
+          </p>
+          <p className="text-white mr-2 my-auto ">
+          {print}
           </p>
         </div>
         {loading &&
@@ -72,18 +82,23 @@ export const SideList = ({ setFabricName }) => {
                 <p className="text-[#0E0874] text-center m-auto">{i.date}</p>
               </div>
               {i.item.map((y, yKey) => (
-                <div
-                  key={yKey}
-                  className="flex mx-auto rounded-lg h-[33px] w-[90%] justify-between"
-                >
-                  <p className="text-[#0E0874]">{y.fileName}</p>
-                  <div className="flex flex-row">
+                <div key={yKey} className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between">
+                  <p className={y.print ? "text-[#9E9E9E]" : "text-[#0E0874]"}>
+                    {y.fileName}
+                  </p>
+                  <div className="flex flex-row mr-1 ">
                     <button
-                      className="mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
-                      onClick={handleClickPrint}
+                      className={
+                        y.print
+                          ? "mx-2 bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          : "mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                      }
+                      onClick={() =>
+                        handleClickPrint(printFile[date]._id, i._id, y._id)
+                      }
                     ></button>
-                    <button className="mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md"></button>
-                    <button className="mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md"></button>
+                    {/* <button className="mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md"></button>
+                    <button className="mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md"></button> */}
                   </div>
                 </div>
               ))}
