@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {getAllPrintFileFetch, putUpdatePrintFileFetch,
+import {
+  getAllPrintFileFetch,
+  putUpdatePrintFileFetch,
 } from "../features/action/fetchPrint";
 import { print } from "../util/icon";
 import { calcFabrick } from "../features/redux/calcFabricSlice";
-
-
 
 export const SideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
@@ -18,7 +18,9 @@ export const SideList = () => {
 
   const handleNameFabric = (key) => {
     setDate(key);
-    dispatch(calcFabrick({data:printFile,fabricName:printFile[date].folderFabric}));
+    dispatch(
+      calcFabrick({ data: printFile, fabricName: printFile[key].folderFabric })
+    );
   };
 
   useEffect(() => {
@@ -71,9 +73,7 @@ export const SideList = () => {
           <p className="text-white m-3">
             FILES: {loading && printFile[date].folderFabric}
           </p>
-          <p className="text-white mr-2 my-auto ">
-          {print}
-          </p>
+          <p className="text-white mr-2 my-auto ">{print}</p>
         </div>
         {loading &&
           printFile[date].folderDate.map((i, iKey) => (
@@ -82,7 +82,10 @@ export const SideList = () => {
                 <p className="text-[#0E0874] text-center m-auto">{i.date}</p>
               </div>
               {i.item.map((y, yKey) => (
-                <div key={yKey} className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between">
+                <div
+                  key={yKey}
+                  className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between"
+                >
                   <p className={y.print ? "text-[#9E9E9E]" : "text-[#0E0874]"}>
                     {y.fileName}
                   </p>

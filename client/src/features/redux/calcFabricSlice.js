@@ -1,17 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  result:{}
+  result: {},
+  line: {},
 };
 
 export const calculateSlice = createSlice({
-  name: 'calc',
+  name: "calc",
   initialState,
   reducers: {
     calcFabrick: (state, action) => {
-       
       const { data, fabricName } = action.payload;
-    
+      let dayLine = [];
+      let heightLine = [];
+
       let totalHeightDay = 0;
       let totalHeightWeek = 0;
       let totalHeightMonth = 0;
@@ -22,10 +24,12 @@ export const calculateSlice = createSlice({
         if (entry.folderFabric === fabricName) {
           entry.folderDate.forEach((folder) => {
             const [day, month] = folder.date.split(".");
-
+            dayLine.push(folder.date);
             folder.item.forEach((item) => {
               const height = parseInt(item.width);
               const col = parseInt(item.col);
+              
+              heightLine.push(height*col);
               if (
                 parseInt(day) === currentDate.getDate() &&
                 parseInt(month) === currentDate.getMonth() + 1
@@ -34,7 +38,8 @@ export const calculateSlice = createSlice({
               }
 
               if (
-                parseInt(day) >= currentDate.getDate() - currentDate.getDay() + 1 &&
+                parseInt(day) >=
+                  currentDate.getDate() - currentDate.getDay() + 1 &&
                 parseInt(month) === currentDate.getMonth() + 1
               ) {
                 totalHeightWeek += height * col;
@@ -47,17 +52,18 @@ export const calculateSlice = createSlice({
           });
         }
       });
-
+      state.line = {
+        day: dayLine,
+        height: heightLine,
+      };
       state.result = {
         totalHeightDay,
         totalHeightWeek,
         totalHeightMonth,
       };
-    }
-  }
+    },
+  },
 });
 
 export default calculateSlice.reducer;
-  export const {
-    calcFabrick,
-  } = calculateSlice.actions;
+export const { calcFabrick } = calculateSlice.actions;

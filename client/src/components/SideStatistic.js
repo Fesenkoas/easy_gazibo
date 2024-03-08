@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 
 export const SideStatistic = () => {
-  const { result } = useSelector((state) => state.calcFile);
+  const { result, line } = useSelector((state) => state.calcFile);
   
   return (
     <div className=" flex flex-wrap justify-center  m-3 w-[870px]">
@@ -33,7 +33,7 @@ export const SideStatistic = () => {
         <div className="rounded-lg h-[48px] w-auto m-2 bg-[#ACCF49]">
           <p className="text-[#0E0874] text-center p-3">ALL TIME</p>
         </div>
-        <LineChart />
+        <LineChart line={line} />
       </div>
     </div>
   );

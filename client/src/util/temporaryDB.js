@@ -17,10 +17,11 @@ export const line = {
     },
   ],
 };
-export const sempl = {
-  day: ["02.03", "03.03", "04.03"],
-  height: ["320", "630", "520"],
-};
+// export const sempl = {
+//   day: ["02.03", "03.03", "04.03"],
+//   height: ["320", "630", "520"],
+// };
+
 
 
 export function calculateHeightForFabric(data, fabricName) {
