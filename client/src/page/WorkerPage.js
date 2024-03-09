@@ -2,7 +2,7 @@ import React from "react";
 import { SideList } from "../components/SideList";
 import { SideStatistic } from "../components/SideStatistic";
 
-export const PageWorker = () => {
+export const WorkerPage = () => {
 
   
   return (
