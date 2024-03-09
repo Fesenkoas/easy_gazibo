@@ -19,7 +19,7 @@ export const getAllPrintFileFetch = () => (dispatch) => {
       console.log(error);
     });
 };
-//Get All Print FIle
+//Change print:false => true
 export const putUpdatePrintFileFetch = (id) => (dispatch) => {
   fetch(`${baseURL}/print/update`, {
     method: "PUT",

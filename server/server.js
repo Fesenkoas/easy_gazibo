@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
 import printRoute from "./routes/PrintFile.js";
 import { configureWebSocket } from "./socket/configureWebSocket.js";
-//import { configureExpressServer } from "./path/configureExpressServer.js";
+import { configureExpressServer } from "./path/configureExpressServer.js";
 
 const app = express();
 dotenv.config();
@@ -31,7 +31,7 @@ app.use(express.json());
 
 // Routes
 // http://localhost:3002
-app.use("/api/auth", authRoute);
+app.use("/auth", authRoute);
 app.use("/print",printRoute);
 
 // Async function start()
@@ -41,7 +41,7 @@ async function start() {
     console.log("Successfully connected to MongoDB");
     server.listen(PORT, () => {
       configureWebSocket(wss, folderToWatch);
-      //configureExpressServer(app, server);
+      configureExpressServer(app, server);
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {

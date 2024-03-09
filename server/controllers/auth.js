@@ -9,16 +9,16 @@ export const register = async (req, res) => {
     const isUsed = await User.findOne({ username });
 
     if (isUsed) {
+      console.log("eror");
       return res.json({ message: " Name Used " });
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-
     const newUser = new User({
       username,
       password: hash,
     });
-
+    
     const token = jwt.sign(
       {
         id: newUser._id,
@@ -26,7 +26,6 @@ export const register = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
-
     await newUser.save();
     res.json({
       token,
@@ -71,7 +70,6 @@ export const login = async (req, res) => {
 
 //Get Me
 export const getMe = async (req, res) => {
-
   try {
     const user = await User.findById(req.userId);
     if (!user) {

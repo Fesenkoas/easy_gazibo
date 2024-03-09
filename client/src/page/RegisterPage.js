@@ -1,33 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Bounce, toast } from "react-toastify";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkIsAuth } from "../features/redux/authSlice";
-import { loginUserFetch } from "../features/action/fetchAuth";
+import { registerUserFetch } from "../features/action/fetchAuth";
+import {Bounce, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
-
-export const LoginPage = () => {
-    
+export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.authFile);
-  const navigate = useNavigate()
+  const {status} = useSelector(state => state.authFile)
 
   const heandleSubmit = () => {
     try {
-      console.log(isAuth);
-      dispatch(loginUserFetch( username, password ));
-      console.log(isAuth);
+      dispatch(registerUserFetch( username, password ));
+      setUsername("");
+      setPassword("");
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (status) toast(status,{
+   useEffect(() => {
+    if(status) toast(status, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -37,17 +34,15 @@ export const LoginPage = () => {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-      });
-     if(isAuth)navigate('/')
-  }, [status,isAuth,navigate]);
-
+      })
+   }, [status]);
 
   return (
     <form
       onSubmit={(e) => e.preventDefault()}
       className="w-1/4 h-60 mx-auto mt-40"
     >
-      <h1 className="text-lg text-white text-center">LOGIN</h1>
+      <h1 className="text-lg text-white text-center">REGISTRATION</h1>
       <label className="text-xs text-gray-400">
         Username:
         <input
@@ -74,13 +69,13 @@ export const LoginPage = () => {
           onClick={heandleSubmit}
           className="flex justify-center items-center text-xs bg-gray-600 text-white rounded-sm py-w px-4"
         >
-          Enter
+          Registracion
         </button>
         <Link
-          to={"/register"}
+          to={"/login"}
           className="flex justify-center items-center text-xs"
         >
-          Registration ?
+          You have login ?
         </Link>
       </div>
     </form>

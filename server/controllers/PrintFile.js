@@ -115,23 +115,22 @@ export const updatePrintFile = async (req, res) => {
   try {
     
     const { id } = req.body;
-    console.log(id);
+    
     const file = await PrintFile.findById(id.id_0);
     if (!file) {
       return res.json({ message: "Файл с указанным идентификатором не найден." });
     }
     const isDate = file.folderDate.findIndex((item) => item._id == id.id_1);
-    console.log("isDate", isDate);
-    // if (!isDate) {
-    //   return res.json({ message: "Папка с указанным идентификатором не найден." });
-    // }
+
+    if (!isDate) {
+      return res.json({ message: "Папка с указанным идентификатором не найден." });
+    }
     const isName = file.folderDate[isDate].item.find(
       (item) => item._id == id.id_2
     );
-    console.log("isName", isName);
-    // if (!isName) {
-    //   return res.json({ message: "Элемент с указанным идентификатором не найден." });
-    // }
+    if (!isName) {
+      return res.json({ message: "Элемент с указанным идентификатором не найден." });
+    }
     isName.print = true;
     await file.save();
 
