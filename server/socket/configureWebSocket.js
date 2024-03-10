@@ -7,13 +7,12 @@ import { AddPrintFile } from "../controllers/PrintFile.js";
 let server;
 
 export const configureWebSocket = (wss, folderToWatch) => {
-
-  server = wss
+  server = wss;
   const watcher = chokidar.watch(folderToWatch, {
     ignored: /^\./,
     persistent: true,
-    usePolling: true,
-    interval: 1000,
+    // usePolling: true,
+    // interval: 1000,
   });
 
   let newFiles = [];
@@ -21,32 +20,42 @@ export const configureWebSocket = (wss, folderToWatch) => {
   let sendTimer;
 
   watcher.on("add", (filePath) => {
-    const fileName = path.basename(filePath);
-    const folderPath = path.dirname(filePath);
-    if(parseUrl(filePath, folderPath, fileName) !== -1)
-    newFiles.push(parseUrl(filePath, folderPath, fileName));
-
-    if (sendTimer) return;
+    const fileExtension = path.extname(filePath);
+    if (fileExtension !== '.bmp') {
+      const fileName = path.basename(filePath);
+      const folderPath = path.dirname(filePath);
+      if (parseUrl(filePath, folderPath, fileName) !== -1)
+        newFiles.push(parseUrl(filePath, folderPath, fileName));
   
-    sendTimer = setTimeout(() => {
-    
-      if (newFiles.length > 0) {
-        try {
-          AddPrintFile(newFiles);
-        } catch (error) {
-          console.error("Error adding item to database:", error);
-        }
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
+      if (sendTimer) return;
+  
+      sendTimer = setTimeout(() => {
+        if (newFiles.length > 0) {
+          try {
+            AddPrintFile(newFiles);
+          } catch (error) {
+            console.error("Error adding item to database:", error);
           }
-        });
-        newFiles = [];
-      }
-      sendTimer = null;
-    }, 1000);
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
+            }
+          });
+          newFiles = [];
+        }
+        sendTimer = null;
+      }, 1000);
+    }
+  });
+  watcher.on("change", (filePath) => {
+    console.log(`Файл ${path.basename(filePath)} был изменен.`);
+    // Здесь можно добавить код для обработки изменения файла
   });
 
+  watcher.on("unlink", (filePath) => {
+    console.log(`Файл ${path.basename(filePath)} был удален.`);
+    // Здесь можно добавить код для обработки удаления файла
+  });
   watcher.on("error", (error) => {
     console.error(`Error occurred: ${error}`);
   });
@@ -63,8 +72,6 @@ export const configureWebSocket = (wss, folderToWatch) => {
     });
   });
 };
-
-
 
 export function sendObjectUpdateNotificationToAllClients() {
   server.clients.forEach((client) => {

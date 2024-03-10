@@ -3,69 +3,16 @@ import { sendObjectUpdateNotificationToAllClients } from "../socket/configureWeb
 //Add Print File
 export const AddPrintFile = async (req, res) => {
   try {
-    // console.log(req);
     for (const item of req) {
       if (item) {
-        const { url, folderDate, folderFabric, name, height, width, col } =
-          item;
+        const { url, folderDate, folderFabric, name, height, width, col } = item;
         const isFabric = await PrintFile.findOne({ folderFabric });
 
         if (isFabric) {
-          const isDate = isFabric.folderDate.findIndex(
-            (item) => item.date === folderDate
-          );
-          if (isDate < 0) {
-            const upItem = {
-              date: folderDate,
-              item: [
-                {
-                  fullUrl: url,
-                  fileName: name,
-                  height,
-                  width,
-                  col,
-                  print: false,
-                  waste: 0,
-                },
-              ],
-            };
-            await PrintFile.findByIdAndUpdate(isFabric._id, {
-              $push: { folderDate: upItem },
-            });
-            console.log("new Date", folderDate, "with file:", name);
-            return;
-          }
-          const isName = isFabric.folderDate[isDate].item.findIndex(
-            (item) => item.fileName === name
-          );
-          if (isDate >= 0 && isName < 0) {
-            await PrintFile.findByIdAndUpdate(
-              isFabric._id,
-              {
-                $push: {
-                  "folderDate.$[date].item": {
-                    fullUrl: url,
-                    fileName: name,
-                    height,
-                    width,
-                    col,
-                    print: false,
-                    waste: 0,
-                  },
-                },
-              },
-              {
-                arrayFilters: [{ "date.date": folderDate }],
-              }
-            );
-            console.log("new file", name, "in folder:", folderDate);
-            return;
-          }
-        } else {
-          const newItem = new PrintFile({
-            folderFabric,
-            folderDate: [
-              {
+          if (isFabric.folderDate) {
+            const isDate = isFabric.folderDate.findIndex((item) => item.date === folderDate);
+            if (isDate < 0) {
+              const upItem = {
                 date: folderDate,
                 item: [
                   {
@@ -78,21 +25,40 @@ export const AddPrintFile = async (req, res) => {
                     waste: 0,
                   },
                 ],
-              },
-            ],
+              };
+              await PrintFile.findByIdAndUpdate(isFabric._id, { $push: { folderDate: upItem } });
+              console.log("new Date", folderDate, "with file:", name);
+             // res.json({ message: `new Date ${folderDate} with file:${name}` });
+            } else {
+              const isName = isFabric.folderDate[isDate].item.findIndex((item) => item.fileName === name);
+              if (isName < 0) {
+                await PrintFile.findByIdAndUpdate(
+                  isFabric._id,
+                  { $push: { "folderDate.$[date].item": { fullUrl: url, fileName: name, height, width, col, print: false, waste: 0 } } },
+                  { arrayFilters: [{ "date.date": folderDate }] }
+                );
+                console.log("new file", name, "in folder:", folderDate);
+             //   res.json({ message: `new file ${name} in folder:${folderDate}` });
+              }
+            }
+          } else {
+            console.error("Error: folderDate is undefined for fabric:", folderFabric);
+            //res.status(500).json({ error: "Internal Server Error" });
+          }
+        } else {
+          const newItem = new PrintFile({
+            folderFabric,
+            folderDate: [{ date: folderDate, item: [{ fullUrl: url, fileName: name, height, width, col, print: false, waste: 0 }] }],
           });
           await newItem.save();
           console.log("Message Sent");
-          return;
+        //  res.json({ message: "New file Add" });
         }
       }
     }
-    // return res.json({
-    //   message: "File Add",
-    // });
   } catch (error) {
-    console.error("Error in addItem function:", error);
-    throw error;
+    console.error("Error in AddPrintFile function:", error);
+   // res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -113,28 +79,33 @@ export const getAll = async (req, res) => {
 
 export const updatePrintFile = async (req, res) => {
   try {
-    
     const { id } = req.body;
-    
+
     const file = await PrintFile.findById(id.id_0);
     if (!file) {
-      return res.json({ message: "Файл с указанным идентификатором не найден." });
+      return res.json({
+        message: "Файл с указанным идентификатором не найден.",
+      });
     }
     const isDate = file.folderDate.findIndex((item) => item._id == id.id_1);
 
-    if (!isDate) {
-      return res.json({ message: "Папка с указанным идентификатором не найден." });
+    if (!isDate<0) {
+      return res.json({
+        message: "Папка с указанным идентификатором не найден.",
+      });
     }
     const isName = file.folderDate[isDate].item.find(
       (item) => item._id == id.id_2
     );
     if (!isName) {
-      return res.json({ message: "Элемент с указанным идентификатором не найден." });
+      return res.json({
+        message: "Элемент с указанным идентификатором не найден.",
+      });
     }
     isName.print = true;
     await file.save();
 
-    sendObjectUpdateNotificationToAllClients()
+    sendObjectUpdateNotificationToAllClients();
 
     res.json({
       message: "Успешно обновлено",

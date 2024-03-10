@@ -21,7 +21,7 @@ export const parseUrl = (filePath, folderPath, fileName) => {
    col = match[6] ? parseInt(match[6]) : 1; 
  }
 
- if (extractedFolders.length >= 2 && fileName.match(regex)) {
+ if (extractedFolders.length ) {
    return {
      url: filePath,
      folderDate: extractedFolders[0],

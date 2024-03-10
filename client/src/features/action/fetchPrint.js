@@ -21,6 +21,7 @@ export const getAllPrintFileFetch = () => (dispatch) => {
 };
 //Change print:false => true
 export const putUpdatePrintFileFetch = (id) => (dispatch) => {
+  
   fetch(`${baseURL}/print/update`, {
     method: "PUT",
     headers: {
@@ -30,7 +31,7 @@ export const putUpdatePrintFileFetch = (id) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-     console.log(data.message);
+    //  console.log(data.message);
     })
     .catch((error) => {
       console.log(error);
