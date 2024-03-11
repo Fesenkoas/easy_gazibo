@@ -18,9 +18,7 @@ export const LoginPage = () => {
 
   const heandleSubmit = () => {
     try {
-      console.log(isAuth);
       dispatch(loginUserFetch( username, password ));
-      console.log(isAuth);
     } catch (error) {
       console.log(error);
     }

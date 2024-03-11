@@ -32,7 +32,7 @@ export const SideList = () => {
     });
     socket.addEventListener("message", function (event) {
       const data = JSON.parse(event.data);
-      console.log("Получено сообщение:", data.type);
+      //console.log("Получено сообщение:", data.type);
       dispatch(getAllPrintFileFetch());
     });
     socket.addEventListener("close", function (event) {
@@ -48,23 +48,26 @@ export const SideList = () => {
   return (
     <div className="flex m-2 w-[870px] ml-8">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}
-      <div className="flex flex-col w-[60px] overflow-y-auto">
+      <div className="flex flex-col w-[140px] overflow-y-auto">
         <div>
           {loading &&
             printFile.map((item, key) => (
               <button
                 key={key}
                 className={
-                  date === key
-                    ? "flex flex-col items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#739D00] mt-2"
-                    : "flex flex-col items-center justify-center h-[120px] w-[30px] rounded-lg bg-[#ACCF49] mt-2"
+                  signal(item, key) == "+"
+                    ? date === key
+                      ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#A62800] mt-4 text-white"
+                      : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#FF6E40] mt-4 hover:bg-[#A62800] text-white"
+                    : date === key
+                    ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#739D00] mt-4 "
+                    : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#ACCF49] mt-4 hover:bg-[#739D00]"
                 }
                 onClick={() => handleNameFabric(key)}
               >
-                <p className="rotate-90 whitespace-nowrap leading-6 font-bold">
-                  {item.folderFabric}  {signal(item,key)}
+                <p className=" whitespace-nowrap leading-6 font-bold">
+                  {item.folderFabric}
                 </p>
-                
               </button>
             ))}
         </div>
@@ -89,7 +92,7 @@ export const SideList = () => {
                   className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between"
                 >
                   <p className={y.print ? "text-[#9E9E9E]" : "text-[#0E0874]"}>
-                    {`${yKey+1})  ${ y.fileName}`}
+                    {`${yKey + 1})  ${y.fileName}`}
                   </p>
                   <div className="flex flex-row mr-1 ">
                     <button

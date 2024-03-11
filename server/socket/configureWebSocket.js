@@ -21,7 +21,7 @@ export const configureWebSocket = (wss, folderToWatch) => {
 
   watcher.on("add", (filePath) => {
     const fileExtension = path.extname(filePath);
-    if (fileExtension !== '.bmp') {
+    if (fileExtension === '.bmp') {
       const fileName = path.basename(filePath);
       const folderPath = path.dirname(filePath);
       if (parseUrl(filePath, folderPath, fileName) !== -1)

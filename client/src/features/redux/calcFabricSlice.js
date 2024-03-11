@@ -28,7 +28,7 @@ export const calculateSlice = createSlice({
             folder.item.forEach((item) => {
               const height = parseInt(item.width);
               const col = parseInt(item.col);
-              
+              console.log(height);
               heightLine.push(height*col);
               if (
                 parseInt(day) === currentDate.getDate() &&
@@ -52,6 +52,9 @@ export const calculateSlice = createSlice({
           });
         }
       });
+      console.log(totalHeightDay,
+        totalHeightWeek,
+        totalHeightMonth,);
       state.line = {
         day: dayLine,
         height: heightLine,
