@@ -9,7 +9,7 @@ import { calcFabrick } from "../features/redux/calcFabricSlice";
 import { signal } from "../util/temporaryDB";
 import { baseURL } from "./../util/Constant";
 
-export const SideList = () => {
+export const DesigSideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
   const [date, setDate] = useState(0);
   const dispatch = useDispatch();
