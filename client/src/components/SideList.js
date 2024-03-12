@@ -7,6 +7,7 @@ import {
 import { print } from "../util/icon";
 import { calcFabrick } from "../features/redux/calcFabricSlice";
 import { signal } from "../util/temporaryDB";
+import { baseURL } from './../util/Constant';
 
 export const SideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
@@ -25,14 +26,12 @@ export const SideList = () => {
   };
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3002");
+    const socket = new WebSocket(`ws:${baseURL}`);
 
     socket.addEventListener("open", function (event) {
       console.log("WebSocket соединение установлено");
     });
     socket.addEventListener("message", function (event) {
-      const data = JSON.parse(event.data);
-      //console.log("Получено сообщение:", data.type);
       dispatch(getAllPrintFileFetch());
     });
     socket.addEventListener("close", function (event) {
@@ -55,7 +54,7 @@ export const SideList = () => {
               <button
                 key={key}
                 className={
-                  signal(item, key) == "+"
+                  signal(item, key)
                     ? date === key
                       ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#A62800] mt-4 text-white"
                       : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#FF6E40] mt-4 hover:bg-[#A62800] text-white"
@@ -83,23 +82,23 @@ export const SideList = () => {
         {loading &&
           printFile[date].folderDate.map((i, iKey) => (
             <div key={iKey}>
-              <div className="my-2 mx-auto rounded-lg h-[33px] w-[95%] bg-[#D1CEFF]">
-                <p className="text-[#0E0874] text-center m-auto">{i.date}</p>
+              <div className="my-2 mx-auto rounded-lg h-[35px] w-[95%] bg-[#D1CEFF]">
+                <p className="text-[#0E0874] text-center">{i.date}</p>
               </div>
               {i.item.map((y, yKey) => (
                 <div
                   key={yKey}
-                  className="flex mx-auto rounded-lg h-[33px] w-[95%] justify-between"
+                  className={yKey % 2 === 0 ?"flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#d1ceff2f]  ":"flex m-auto rounded-lg h-[35px] w-[95%] justify-between"}
                 >
-                  <p className={y.print ? "text-[#9E9E9E]" : "text-[#0E0874]"}>
+                  <p className={y.print ? "text-[#9E9E9E] m-1" : "text-[#0E0874] m-1 "}>
                     {`${yKey + 1})  ${y.fileName}`}
                   </p>
-                  <div className="flex flex-row mr-1 ">
+                  <div className="flex flex-row m-2 ">
                     <button
                       className={
                         y.print
-                          ? "mx-2 bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
-                          : "mx-2 bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          ? " bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          : " bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                       }
                       onClick={() =>
                         handleClickPrint(printFile[date]._id, i._id, y._id)
@@ -116,3 +115,4 @@ export const SideList = () => {
     </div>
   );
 };
+// hover:scale-x-110 transform-gpu

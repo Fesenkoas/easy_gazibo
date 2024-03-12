@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import "./App.css";
 import { WorkerPage } from "./page/WorkerPage";
 import { useDispatch, useSelector } from "react-redux";
-// import { getAllPrintFileFetch } from "./features/action/fetchPrint";
 import { Layout } from "./components/Layout";
 import { ToastContainer } from "react-toastify";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./page/LoginPage";
 import { RegisterPage } from "./page/RegisterPage";
 import { checkIsAuth, getMe } from "./features/redux/authSlice";
@@ -18,20 +17,32 @@ function App() {
 
   useEffect(() => {
     dispatch(getMe());
-    dispatch(getAllPrintFileFetch())
+    dispatch(getAllPrintFileFetch());
   }, [dispatch]);
 
-
-  return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<WorkerPage/>} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="login" element={<LoginPage />} />
-      </Routes>
-      <ToastContainer position="bottom-right" />
-    </Layout>
-  );
+  // if (isAuth) {
+    return (
+      <Layout>
+        <Routes>
+          <Route path="/" element={<WorkerPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+        <ToastContainer position="bottom-right" />
+      </Layout>
+    );
+  // } else {
+  //   return (
+  //     <Layout>
+  //       <Routes>
+  //         <Route path="/" element={<Navigate to="/login" />} />
+  //         <Route path="/register" element={<RegisterPage />} />
+  //         <Route path="/login" element={<LoginPage />} />
+  //       </Routes>
+  //       <ToastContainer position="bottom-right" />
+  //     </Layout>
+  //   );
+  // }
 }
 
 export default App;

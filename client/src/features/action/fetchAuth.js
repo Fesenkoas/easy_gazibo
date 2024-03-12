@@ -1,7 +1,8 @@
+import { baseURL } from "../../util/Constant";
 import { getMe, loginUser, registerUser } from "../redux/authSlice";
 import { getMessage } from "../redux/messageSlice";
 
-const baseURL = "http://localhost:3002";
+
 
 //Register User
 export const registerUserFetch = (username, password) => (dispatch) => {

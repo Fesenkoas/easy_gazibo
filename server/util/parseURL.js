@@ -8,20 +8,17 @@ export const parseUrl = (filePath, folderPath, fileName) => {
       ? folders.slice(ripIndex + 1)
       : [];
 
-  const regex = /(\d+)\s(.+?)\s(\d+)x(\d+)\s?cm\s?(X(\d+))?\.prt/;
-
-  const match = fileName.match(regex);
-
-  let height = 0;
-  let width = 0;
-  let col = 1;
-  if (match) {
-    height = match[3];
-    width = match[4];
-    col = match[6] ? parseInt(match[6]) : 1;
-  }
+  const parts = fileName.split(" ");
+  const size = parts[parts.length - 2];
+  const sizeDigits = size.split(/[^\d]+/);
+  const width = sizeDigits[0]; 
+  const height = sizeDigits[1]; 
+  const dimensions = parts[parts.length - 1];
+  const dimensionsDigits = dimensions.split(/[^\d]+/);
+  const col = dimensionsDigits[1]; 
 
   if (extractedFolders.length > 0) {
+    
     return {
       url: filePath,
       folderDate: extractedFolders[0],
