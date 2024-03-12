@@ -14,7 +14,6 @@ export const parseUrl = (filePath, folderPath, fileName) => {
  let height = 0;
  let width = 0;
  let col = 1; 
-
  if (match) {
    height = match[3];
    width = match[4];

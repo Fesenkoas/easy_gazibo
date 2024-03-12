@@ -52,9 +52,6 @@ export const calculateSlice = createSlice({
           });
         }
       });
-      console.log(totalHeightDay,
-        totalHeightWeek,
-        totalHeightMonth,);
       state.line = {
         day: dayLine,
         height: heightLine,
