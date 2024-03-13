@@ -20,7 +20,7 @@ function App() {
     dispatch(getAllPrintFileFetch());
   }, [dispatch]);
 
-  // if (isAuth) {
+   // if (isAuth) {
     return (
       <Layout>
         <Routes>
@@ -31,18 +31,18 @@ function App() {
         <ToastContainer position="bottom-right" />
       </Layout>
     );
-  // } else {
-  //   return (
-  //     <Layout>
-  //       <Routes>
-  //         <Route path="/" element={<Navigate to="/login" />} />
-  //         <Route path="/register" element={<RegisterPage />} />
-  //         <Route path="/login" element={<LoginPage />} />
-  //       </Routes>
-  //       <ToastContainer position="bottom-right" />
-  //     </Layout>
-  //   );
-  // }
+  //  } else {
+  //    return (
+  //      <Layout>
+  //        <Routes>
+  //          <Route path="/" element={<Navigate to="/login" />} />
+  //          <Route path="/register" element={<RegisterPage />} />
+  //          <Route path="/login" element={<LoginPage />} />
+  //        </Routes>
+  //        <ToastContainer position="bottom-right" />
+  //      </Layout>
+  //    );
+  //  }
 }
 
 export default App;
