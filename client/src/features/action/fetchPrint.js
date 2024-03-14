@@ -1,7 +1,7 @@
+import { baseURL } from "../../util/Constant";
 import { getMessage } from "../redux/messageSlice";
 import { getAllPrintFile, loading } from "../redux/printSlice";
 
-const baseURL = "http://localhost:3002";
 
 //Get All Print FIle
 export const getAllPrintFileFetch = () => (dispatch) => {
