@@ -122,7 +122,7 @@ export const DesigSideList = () => {
                       className={
                         y.stop
                           ? " bg-[#FF3D00] my-auto mx-4 w-[144px] font-bold text-white outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4] "
-                          : "bg-[#9E9E9E] my-auto mx-4 w-[144px] font-bold text-white outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          : "bg-[#9E9E9E] my-auto mx-4 w-[144px] font-bold text-black outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                       }
                       onClick={() =>
                         handleClickStop(
@@ -138,8 +138,8 @@ export const DesigSideList = () => {
                     <button
                       className={
                         y.print || y.stop
-                          ? " bg-[#9E9E9E] my-auto mx-4 h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
-                          : " bg-[#FF3D00] my-auto mx-4 h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          ? " bg-[#9E9E9E] my-auto mx-4 h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  "
+                          : " bg-[#FF3D00] my-auto mx-4 h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md "
                       }
                     ></button>
                   </div>

@@ -22,6 +22,8 @@ export const registerUserFetch = (username, password) => (dispatch) => {
       // }
       if (data.token) {
         window.localStorage.setItem("token", data.token);
+        const token = JSON.parse(localStorage.getItem('token'));
+        console.log(token);
       }
       dispatch(registerUser(data));
     })
@@ -47,6 +49,7 @@ export const loginUserFetch = (username, password) => (dispatch) => {
       }
       if (data.token) {
         window.localStorage.setItem("token", data.token);
+        // const token = localStorage.getItem('token');
       }
       dispatch(loginUser(data));
     })

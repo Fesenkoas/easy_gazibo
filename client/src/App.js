@@ -25,9 +25,10 @@ function App() {
     return (
       <Layout>
         <Routes>
-          <Route path="/" element={<DesigSideList />} />
+          <Route path="/" element={<WorkerPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/desing" element={<DesigSideList />} />
         </Routes>
         <ToastContainer position="bottom-right" />
       </Layout>
