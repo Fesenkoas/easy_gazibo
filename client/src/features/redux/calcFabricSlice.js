@@ -26,9 +26,8 @@ export const calculateSlice = createSlice({
             const [day, month] = folder.date.split(".");
             dayLine.push(folder.date);
             folder.item.forEach((item) => {
-              const height = parseInt(item.width);
+              const height = parseInt(item.height);
               const col = parseInt(item.col);
-              console.log(height);
               heightLine.push(height*col);
               if (
                 parseInt(day) === currentDate.getDate() &&

@@ -6,6 +6,7 @@ import { WebSocketServer } from "ws";
 import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
 import printRoute from "./routes/PrintFile.js";
+import desigRoute from "./routes/Desig.js";
 import { configureWebSocket } from "./socket/configureWebSocket.js";
 import { configureExpressServer } from "./path/configureExpressServer.js";
 
@@ -31,6 +32,7 @@ app.use(express.json());
 // http://localhost:3002
 app.use("/auth", authRoute);
 app.use("/print",printRoute);
+app.use("/desig",desigRoute);
 
 // Async function start()
 async function start() {

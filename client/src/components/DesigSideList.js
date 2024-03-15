@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllPrintFileFetch,
-  putUpdatePrintFileFetch,
-} from "../features/action/fetchPrint";
+import { getAllPrintFileFetch } from "../features/action/fetchPrint";
 import { print } from "../util/icon";
-import { calcFabrick } from "../features/redux/calcFabricSlice";
 import { signal } from "../util/temporaryDB";
 import { baseURL } from "./../util/Constant";
+import { putStopPrintFileFetch } from "../features/action/fetchDesig";
 
 export const DesigSideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
   const [date, setDate] = useState(0);
+  // const [change, setChange] = useState(-1);
+  // const [change1, setChange1] = useState(-1);
   const dispatch = useDispatch();
 
-  const handleClickPrint = (id_0, id_1, id_2) => {
-    dispatch(putUpdatePrintFileFetch({ id_0, id_1, id_2 }));
+  const handleClickStop = (id_0, id_1, id_2, stop) => {
+    dispatch(putStopPrintFileFetch({id_0, id_1, id_2, stop}))
   };
-
+  // const handleClickChange = (key_1, key_2) => {
+  //   setChange(key_1);
+  //   setChange1(key_2);
+  //   console.log(key_1);
+  // };
   const handleNameFabric = (key) => {
     setDate(key);
-    dispatch(
-      calcFabrick({ data: printFile, fabricName: printFile[key].folderFabric })
-    );
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const DesigSideList = () => {
     };
   }, [dispatch]);
   return (
-    <div className="flex m-2 w-[870px] ml-8">
+    <div className="flex absolute bottom-0 top-14 inset-x-0 m-2 w-[1000px] ml-8 ">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}
       <div className="flex flex-col w-[140px] overflow-y-auto">
         <div>
@@ -54,7 +54,7 @@ export const DesigSideList = () => {
               <button
                 key={key}
                 className={
-                  signal(item, key)
+                  signal(item)
                     ? date === key
                       ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#A62800] mt-4 text-white"
                       : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#FF6E40] mt-4 hover:bg-[#A62800] text-white"
@@ -72,7 +72,7 @@ export const DesigSideList = () => {
         </div>
       </div>
       {/* --------------------------------------------------------------------------------------------- */}
-      <div className="flex flex-col m-2 w-[820px] border-2 border-[#D9DCE4] rounded-lg overflow-y-scroll">
+      <div className="flex flex-col m-2 w-[1000px] border-2 border-[#D9DCE4] rounded-lg overflow-y-scroll">
         <div className="flex my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874] justify-between">
           <p className="text-white m-3">
             FILES: {loading && printFile[date].folderFabric}
@@ -89,27 +89,57 @@ export const DesigSideList = () => {
                 <div
                   key={yKey}
                   className={
-                    yKey % 2 === 0
-                      ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#d1ceff2f]  "
-                      : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between"
+                    y.stop
+                      ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#ff3c001e]"
+                      : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between hover:bg-[#d1ceff2f]"
                   }
                 >
                   <p
                     className={
-                      y.print ? "text-[#9E9E9E] m-1" : "text-[#0E0874] m-1 "
+                      y.print || y.stop
+                        ? "text-[#9E9E9E] m-1"
+                        : "text-[#0E0874] m-1 "
                     }
                   >
-                    {`${yKey + 1})  ${y.fileName}`}
+                    {`${yKey + 1})  ${y.fileName} `}
                   </p>
-                  <div className="flex flex-row m-2 ">
+
+                  <div className=" m-auto">
+                    {/* {!change == iKey || !change1 == yKey ? (
+                      <button
+                        className=" bg-[#FF3D00]  w-[144px] mx-2 font-bold text-white outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4] "
+                        onClick={() => handleClickChange(iKey, yKey)}
+                      >
+                        {" "}
+                        Change{" "}
+                      </button>
+                    ) : (
+                      <input />
+                    )} */}
+                  </div>
+                  <div className="flex flex-row ">
                     <button
                       className={
-                        y.print
-                          ? " bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
-                          : " bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                        y.stop
+                          ? " bg-[#FF3D00] my-auto mx-4 w-[144px] font-bold text-white outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4] "
+                          : "bg-[#9E9E9E] my-auto mx-4 w-[144px] font-bold text-white outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                       }
                       onClick={() =>
-                        handleClickPrint(printFile[date]._id, i._id, y._id)
+                        handleClickStop(
+                          printFile[date]._id,
+                          i._id,
+                          y._id,
+                          y.stop
+                        )
+                      }
+                    >
+                      {y.stop ? "Print" : "Stop"}
+                    </button>
+                    <button
+                      className={
+                        y.print || y.stop
+                          ? " bg-[#9E9E9E] my-auto mx-4 h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md  hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          : " bg-[#FF3D00] my-auto mx-4 h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                       }
                     ></button>
                   </div>

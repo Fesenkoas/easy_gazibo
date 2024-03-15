@@ -10,6 +10,7 @@ import { LoginPage } from "./page/LoginPage";
 import { RegisterPage } from "./page/RegisterPage";
 import { checkIsAuth, getMe } from "./features/redux/authSlice";
 import { getAllPrintFileFetch } from "./features/action/fetchPrint";
+import { DesigSideList } from "./components/DesigSideList";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function App() {
     return (
       <Layout>
         <Routes>
-          <Route path="/" element={<WorkerPage />} />
+          <Route path="/" element={<DesigSideList />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Routes>

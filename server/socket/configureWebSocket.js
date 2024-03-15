@@ -3,6 +3,7 @@ import WebSocket from "ws";
 import path from "path";
 import { parseUrl } from "../util/parseURL.js";
 import { AddPrintFile } from "../controllers/PrintFile.js";
+import { removePrintFile } from "../controllers/Desig.js";
 
 let server;
 
@@ -21,14 +22,14 @@ export const configureWebSocket = (wss, folderToWatch) => {
 
   watcher.on("add", (filePath) => {
     const fileExtension = path.extname(filePath);
-    if (fileExtension === '.prt') {
+    if (fileExtension === ".prt") {
       const fileName = path.basename(filePath);
       const folderPath = path.dirname(filePath);
       if (parseUrl(filePath, folderPath, fileName) !== -1)
         newFiles.push(parseUrl(filePath, folderPath, fileName));
-  
+
       if (sendTimer) return;
-  
+
       sendTimer = setTimeout(() => {
         if (newFiles.length > 0) {
           try {
@@ -38,7 +39,9 @@ export const configureWebSocket = (wss, folderToWatch) => {
           }
           wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify({ type: "filesArray", path: newFiles }));
+              client.send(
+                JSON.stringify({ type: "filesArray", path: newFiles })
+              );
             }
           });
           newFiles = [];
@@ -47,14 +50,22 @@ export const configureWebSocket = (wss, folderToWatch) => {
       }, 1000);
     }
   });
-  watcher.on("change", (filePath) => {
-    console.log(`Файл ${path.basename(filePath)} был изменен.`);
-    // Здесь можно добавить код для обработки изменения файла
-  });
 
   watcher.on("unlink", (filePath) => {
-    console.log(`Файл ${path.basename(filePath)} был удален.`);
-    // Здесь можно добавить код для обработки удаления файла
+    const folders = filePath.split("\\");
+    const ripIndex = folders.indexOf("rip");
+
+    const extractedFolders =
+      ripIndex !== -1 && ripIndex < folders.length - 1
+        ? folders.slice(ripIndex + 1)
+        : [];
+    const fileName = path.basename(filePath);
+
+    removePrintFile({
+      folderDate: extractedFolders[0],
+      folderFabric: extractedFolders[1],
+      name: fileName,
+    });
   });
   watcher.on("error", (error) => {
     console.error(`Error occurred: ${error}`);

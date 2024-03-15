@@ -1,4 +1,4 @@
-export const signal = (printFile, key) => {
+export const signal = (printFile) => {
 
 for (let i = 0; i < printFile.folderDate.length; i++) {
   const date = printFile.folderDate[i];

@@ -89,14 +89,16 @@ export const SideList = () => {
                 <div
                   key={yKey}
                   className={
-                    yKey % 2 === 0
-                      ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#d1ceff2f]  "
-                      : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between"
+                    y.stop
+                      ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#ff3c001e]"
+                      : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between hover:bg-[#d1ceff2f]"
                   }
                 >
                   <p
                     className={
-                      y.print ? "text-[#9E9E9E] m-1" : "text-[#0E0874] m-1 "
+                      y.print || y.stop
+                        ? "text-[#9E9E9E] m-1"
+                        : "text-[#0E0874] m-1 "
                     }
                   >
                     {`${yKey + 1})  ${y.fileName}`}
@@ -104,7 +106,7 @@ export const SideList = () => {
                   <div className="flex flex-row m-2 ">
                     <button
                       className={
-                        y.print
+                        y.print || y.stop
                           ? " bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                           : " bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
                       }
