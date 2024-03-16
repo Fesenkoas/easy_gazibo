@@ -45,9 +45,9 @@ export const SideList = () => {
     };
   }, [dispatch]);
   return (
-    <div className="flex m-2 w-[870px] ml-8">
+    <div className="flex m-1 h-[100%] w-1/2 ml-8">
       {/* ---------------------------------------Side Fabrick--------------------------------------------- */}
-      <div className="flex flex-col w-[140px] overflow-y-auto">
+      <div className="flex flex-col w-[20%] ">
         <div>
           {loading &&
             printFile.map((item, key) => (
@@ -56,11 +56,11 @@ export const SideList = () => {
                 className={
                   signal(item, key)
                     ? date === key
-                      ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#A62800] mt-4 text-white"
-                      : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#FF6E40] mt-4 hover:bg-[#A62800] text-white"
+                      ? "flex flex-col items-center justify-center h-[30px] w-[100%] rounded-lg bg-[#A62800] mt-4 text-white"
+                      : "flex flex-col items-center justify-center h-[30px] w-[100%] rounded-lg bg-[#FF6E40] mt-4 hover:bg-[#A62800] text-white"
                     : date === key
-                    ? "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#739D00] mt-4 "
-                    : "flex flex-col items-center justify-center h-[30px] w-[120px] rounded-lg bg-[#ACCF49] mt-4 hover:bg-[#739D00]"
+                    ? "flex flex-col items-center justify-center h-[30px] w-[100%] rounded-lg bg-[#739D00] mt-4 "
+                    : "flex flex-col items-center justify-center h-[30px] w-[100%] rounded-lg bg-[#ACCF49] mt-4 hover:bg-[#739D00]"
                 }
                 onClick={() => handleNameFabric(key)}
               >
@@ -72,7 +72,7 @@ export const SideList = () => {
         </div>
       </div>
       {/* --------------------------------------------------------------------------------------------- */}
-      <div className="flex flex-col m-2 w-[820px] border-2 border-[#D9DCE4] rounded-lg overflow-y-scroll">
+      <div className="flex flex-col m-2 h-auto w-[80%] border-2 border-[#D9DCE4] rounded-lg overflow-y-scroll">
         <div className="flex my-2 mx-auto rounded-lg h-[48px] w-[95%]  bg-[#0E0874] justify-between">
           <p className="text-white m-3">
             FILES: {loading && printFile[date].folderFabric}
@@ -113,6 +113,7 @@ export const SideList = () => {
                       onClick={() =>
                         handleClickPrint(printFile[date]._id, i._id, y._id)
                       }
+                      disabled={y.stop}
                     ></button>
                   </div>
                 </div>

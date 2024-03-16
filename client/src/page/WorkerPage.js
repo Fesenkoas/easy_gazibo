@@ -6,7 +6,7 @@ export const WorkerPage = () => {
 
   
   return (
-    <div className="flex  absolute bottom-0 top-14 inset-x-0">
+    <div className="flex absolute bottom-0 top-14 inset-x-0">
       {/* -------------------------------------Left---------------------------------------------------- */}
       <SideList/>
       {/* -------------------------------------Right--------------------------------------------------- */}

@@ -63,5 +63,5 @@ export const LineChart = () => {
     };
   }, [line]);
 
-  return <canvas ref={chartContainer} />;
+  return <canvas ref={chartContainer}/>;
 };

@@ -72,6 +72,8 @@ export const removePrintFile = async (req, res) => {
     isFabric.folderDate[isDate].item.splice(isName, 1);
 
     await isFabric.save();
+    
+    sendObjectUpdateNotificationToAllClients();
 
     console.log("File deleted successfully");
   } catch (error) {
