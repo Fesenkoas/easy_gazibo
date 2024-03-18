@@ -8,10 +8,14 @@ import { print } from "../util/icon";
 import { calcFabrick } from "../features/redux/calcFabricSlice";
 import { signal } from "../util/temporaryDB";
 import { baseURL } from "./../util/Constant";
+//import { ShowItem } from "./ShowItem";
+
 
 export const SideList = () => {
   const { printFile, loading } = useSelector((state) => state.printFile);
+  const [isOpen, setIsOpen] = useState(null);
   const [date, setDate] = useState(0);
+  // const [showItems, setShowItems] = useState(false);
   const dispatch = useDispatch();
 
   const handleClickPrint = (id_0, id_1, id_2) => {
@@ -24,6 +28,17 @@ export const SideList = () => {
       calcFabrick({ data: printFile, fabricName: printFile[key].folderFabric })
     );
   };
+
+  const handleOpenList = (key) => {
+    if (key !== isOpen) setIsOpen(key);
+    else setIsOpen(null);
+  };
+
+  // const handleOpenImage = (ke) => {
+
+  //   setShowItems(!showItems);
+    
+  // };
 
   useEffect(() => {
     const socket = new WebSocket(`ws:${baseURL}`);
@@ -82,42 +97,48 @@ export const SideList = () => {
         {loading &&
           printFile[date].folderDate.map((i, iKey) => (
             <div key={iKey}>
-              <div className="my-2 mx-auto rounded-lg h-[35px] w-[95%] bg-[#D1CEFF]">
+              <div
+                className="my-2 mx-auto rounded-lg h-[35px] w-[95%] bg-[#D1CEFF]"
+                onClick={() => handleOpenList(iKey)}
+              >
                 <p className="text-[#0E0874] text-center">{i.date}</p>
               </div>
-              {i.item.map((y, yKey) => (
-                <div
-                  key={yKey}
-                  className={
-                    y.stop
-                      ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#ff3c001e]"
-                      : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between hover:bg-[#d1ceff2f]"
-                  }
-                >
-                  <p
+              {isOpen === iKey &&
+                i.item.map((y, yKey) => (
+                  <div
+                    key={yKey}
                     className={
-                      y.print || y.stop
-                        ? "text-[#9E9E9E] m-1"
-                        : "text-[#0E0874] m-1 "
+                      y.stop
+                        ? "flex m-auto rounded-lg h-[35px] w-[95%] justify-between bg-[#ff3c001e]"
+                        : "flex m-auto rounded-lg h-[35px] w-[95%] justify-between hover:bg-[#d1ceff2f]"
                     }
                   >
-                    {`${yKey + 1})  ${y.fileName}`}
-                  </p>
-                  <div className="flex flex-row m-2 ">
-                    <button
+                    <p
                       className={
                         y.print || y.stop
-                          ? " bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
-                          : " bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                          ? "text-[#9E9E9E] m-1"
+                          : "text-[#0E0874] m-1 "
                       }
-                      onClick={() =>
-                        handleClickPrint(printFile[date]._id, i._id, y._id)
-                      }
-                      disabled={y.stop}
-                    ></button>
+                      // onClick={() => setShowItems(yKey)}
+                    >
+                      {`${yKey + 1})  ${y.fileName}`}
+                      {/* { showItems === yKey && <ShowItem url={y.fullUrl} setShowItems={setShowItems} />} */}
+                    </p>
+                    <div className="flex flex-row m-2 ">
+                      <button
+                        className={
+                          y.print || y.stop
+                            ? " bg-[#9E9E9E] h-[20px] w-[20px] outline-[#9E9E9E] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                            : " bg-[#FF3D00] h-[20px] w-[20px] outline-[#FF3D00] outline outline-offset-2 outline-2 rounded-md hover:bg-[#D9DCE4] hover:outline-[#D9DCE4]"
+                        }
+                        onClick={() =>
+                          handleClickPrint(printFile[date]._id, i._id, y._id)
+                        }
+                        disabled={y.stop}
+                      ></button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           ))}
       </div>

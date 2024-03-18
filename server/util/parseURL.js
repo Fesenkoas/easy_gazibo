@@ -17,7 +17,7 @@ export const parseUrl = (filePath, folderPath, fileName) => {
   const dimensionsDigits = dimensions.split(/[^\d]+/);
   const col = dimensionsDigits[1]; 
 
-  if (extractedFolders.length > 0) {
+  if (extractedFolders.length > 1) {
     
     return {
       url: filePath,
